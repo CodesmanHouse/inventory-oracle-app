@@ -17,7 +17,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { CatalogTable, type SortState } from "@/components/catalog/CatalogTable";
+import { InventoryTable, type SortState } from "@/components/catalog/InventoryTable";
+import { useMovements } from "@/hooks/useInventoryData";
 import { CatalogFilters } from "@/components/catalog/CatalogFilters";
 import { ItemFormSheet } from "@/components/catalog/ItemFormSheet";
 import { BulkActionBar } from "@/components/catalog/BulkActionBar";
@@ -42,7 +43,7 @@ interface CatalogSearch {
 
 export const Route = createFileRoute("/app/catalog")({
   component: CatalogPage,
-  head: () => ({ meta: [{ title: "Catalog — Stackwise" }] }),
+  head: () => ({ meta: [{ title: "Inventory — Stackwise" }] }),
   validateSearch: (search: Record<string, unknown>): CatalogSearch => ({
     item: typeof search.item === "string" ? search.item : undefined,
     newItem: typeof search.newItem === "string" ? search.newItem : undefined,
@@ -95,6 +96,7 @@ function CatalogPage() {
   const { data: categories } = useCategories();
   const { data: suppliers } = useSuppliers();
   const { data: locations } = useLocations();
+  const { data: movements } = useMovements();
   const createItem = useCreateItem();
   const updateItem = useUpdateItem();
   const deleteItem = useDeleteItem();
@@ -220,8 +222,8 @@ function CatalogPage() {
     <div className="mx-auto max-w-[1400px] space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Product Catalog</h1>
-          <p className="text-sm text-muted-foreground">{items.length} items</p>
+          <h1 className="text-2xl font-semibold text-foreground">Inventory</h1>
+          <p className="text-sm text-muted-foreground">{items.length} items in stock</p>
         </div>
         <div className="flex items-center gap-2">
           <CSVExportButton
@@ -256,11 +258,9 @@ function CatalogPage() {
           onAction={can("create_item") ? openCreate : undefined}
         />
       ) : (
-        <CatalogTable
+        <InventoryTable
           items={items}
-          categories={categories}
-          suppliers={suppliers}
-          locations={locations}
+          movements={movements}
           sort={sort}
           onSortChange={setSort}
           selected={selected}
