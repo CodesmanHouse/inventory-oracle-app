@@ -1,140 +1,125 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Plus, ArrowUpDown } from "lucide-react";
+import { Plus, Receipt } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { MovementsTable } from "@/components/movements/MovementsTable";
-import { MovementsFilters } from "@/components/movements/MovementsFilters";
-import { MovementStats } from "@/components/movements/MovementStats";
-import { MovementFormSheet } from "@/components/movements/MovementFormSheet";
+import { TransactionsTable } from "@/components/transactions/TransactionsTable";
+import { AddSaleSheet } from "@/components/transactions/AddSaleSheet";
 import { CSVExportButton, type CSVColumn } from "@/components/data/CSVExportButton";
-import { EMPTY_MOVEMENT_FILTERS } from "@/components/movements/movement-filter-types";
-import type { MovementFilters } from "@/components/movements/movement-filter-types";
-import { useMovements, useItems, useLocations } from "@/hooks/useInventoryData";
+import { useMovements, useItems } from "@/hooks/useInventoryData";
 import { PermissionGate } from "@/hooks/usePermissions";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
 import type { StockMovement } from "@/types/inventory";
 
 export const Route = createFileRoute("/app/movements")({
-  component: MovementsPage,
-  head: () => ({ meta: [{ title: "Movements — Stackwise" }] }),
-  validateSearch: (search: Record<string, unknown>) => ({
-    item: typeof search.item === "string" ? search.item : undefined,
-  }),
+  component: TransactionsPage,
+  head: () => ({ meta: [{ title: "Transactions — Stackwise" }] }),
 });
 
-function applyFilters(movements: StockMovement[], f: MovementFilters): StockMovement[] {
-  let result = movements;
-  if (f.types.length > 0) result = result.filter((m) => f.types.includes(m.type));
-  if (f.itemId) result = result.filter((m) => m.itemId === f.itemId);
-  if (f.performedBy) result = result.filter((m) => m.performedBy === f.performedBy);
-  if (f.dateFrom) {
-    const from = new Date(f.dateFrom);
-    from.setHours(0, 0, 0, 0);
-    result = result.filter((m) => new Date(m.createdAt) >= from);
-  }
-  if (f.dateTo) {
-    const to = new Date(f.dateTo);
-    to.setHours(23, 59, 59, 999);
-    result = result.filter((m) => new Date(m.createdAt) <= to);
-  }
-  return result;
-}
+const fmt = (n: number) =>
+  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n || 0);
 
-function MovementsPage() {
-  const { item: itemParam } = Route.useSearch();
-  const [filters, setFilters] = useState<MovementFilters>(EMPTY_MOVEMENT_FILTERS);
+function TransactionsPage() {
   const [formOpen, setFormOpen] = useState(false);
   const { data: movements } = useMovements();
   const { data: items } = useItems();
-  const { data: locations } = useLocations();
 
-  // Pre-filter by item query param on mount
-  useEffect(() => {
-    if (itemParam) {
-      setFilters((prev) => ({ ...prev, itemId: itemParam }));
-    }
-  }, [itemParam]);
+  // Only show transactions that are actual sales (have sale details or are Shipped)
+  const transactions = useMemo(
+    () => movements.filter((m) => m.sale || m.type === "shipped"),
+    [movements],
+  );
 
   const itemNameMap = useMemo(
     () => new Map(items.map((i) => [i.id, i.name])),
     [items],
   );
 
-  const locationNameMap = useMemo(
-    () => new Map(locations.map((l) => [l.id, l.name])),
-    [locations],
-  );
+  const stats = useMemo(() => {
+    const total = transactions.reduce((s, m) => s + (m.sale?.totalAmount ?? 0), 0);
+    const collected = transactions.reduce((s, m) => s + (m.sale?.deposit ?? m.sale?.totalAmount ?? 0), 0);
+    const outstanding = transactions.reduce((s, m) => s + (m.sale?.balance ?? 0), 0);
+    return { count: transactions.length, total, collected, outstanding };
+  }, [transactions]);
 
-  const performers = useMemo(
-    () => [...new Set(movements.map((m) => m.performedBy))].sort(),
-    [movements],
-  );
+  const csvColumns = useMemo<CSVColumn<StockMovement>[]>(() => [
+    { header: "Receipt", accessor: (m) => m.sale?.receiptNumber ?? `TXN-${m.id.slice(0, 6)}` },
+    { header: "Date", accessor: (m) => new Date(m.createdAt).toLocaleString() },
+    { header: "Item", accessor: (m) => itemNameMap.get(m.itemId) ?? "" },
+    { header: "Quantity", accessor: (m) => Math.abs(m.quantity) },
+    { header: "Total", accessor: (m) => m.sale?.totalAmount ?? 0 },
+    { header: "Deposit", accessor: (m) => m.sale?.deposit ?? 0 },
+    { header: "Balance", accessor: (m) => m.sale?.balance ?? 0 },
+    { header: "Method", accessor: (m) => m.sale?.paymentMethod ?? "" },
+    { header: "Customer", accessor: (m) => m.sale?.customer ?? "" },
+    { header: "Staff", accessor: (m) => m.sale?.staff ?? m.performedBy },
+    { header: "Status", accessor: (m) => m.sale?.status ?? "" },
+  ], [itemNameMap]);
 
-  const filtered = useMemo(() => applyFilters(movements, filters), [movements, filters]);
-
-  const movementCsvColumns = useMemo<CSVColumn<StockMovement>[]>(() => [
-    { header: "Date", accessor: (m) => new Date(m.createdAt).toLocaleDateString() },
-    { header: "Type", accessor: (m) => m.type },
-    { header: "Item Name", accessor: (m) => itemNameMap.get(m.itemId) ?? "" },
-    { header: "SKU", accessor: (m) => items.find((i) => i.id === m.itemId)?.sku ?? "" },
-    { header: "Quantity", accessor: (m) => m.quantity },
-    { header: "Performed By", accessor: (m) => m.performedBy },
-    { header: "Reference", accessor: (m) => m.reference },
-    { header: "Notes", accessor: (m) => m.notes },
-  ], [itemNameMap, items]);
+  const statPills = [
+    { label: "Transactions", value: String(stats.count) },
+    { label: "Gross sales", value: fmt(stats.total) },
+    { label: "Collected", value: fmt(stats.collected), tone: "emerald" },
+    { label: "Outstanding", value: fmt(stats.outstanding), tone: "amber" },
+  ];
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-foreground">Stock movements</h1>
-          <p className="text-sm text-muted-foreground">{filtered.length} movements</p>
+          <h1 className="text-2xl font-semibold text-foreground">Transactions</h1>
+          <p className="text-sm text-muted-foreground">
+            {stats.count} {stats.count === 1 ? "sale" : "sales"} recorded
+          </p>
         </div>
         <div className="flex items-center gap-2">
-          <CSVExportButton
-            data={filtered}
-            columns={movementCsvColumns}
-            filename="stackwise-movements"
-          />
+          <CSVExportButton data={transactions} columns={csvColumns} filename="stackwise-transactions" />
           <PermissionGate permission="log_movement">
-            <Button onClick={() => setFormOpen(true)} className="gap-1.5 bg-amber-600 hover:bg-amber-700 text-white">
+            <Button onClick={() => setFormOpen(true)} className="gap-1.5">
               <Plus className="h-4 w-4" />
-              Log Movement
+              Add sale
             </Button>
           </PermissionGate>
         </div>
       </div>
 
-      <MovementsFilters
-        filters={filters}
-        onChange={setFilters}
-        items={items}
-        performers={performers}
-      />
-
-      <MovementStats movements={filtered} />
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        {statPills.map((s) => (
+          <div
+            key={s.label}
+            className="rounded-lg border border-border bg-card p-4"
+          >
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">{s.label}</p>
+            <p
+              className={`mt-1 font-mono text-xl font-semibold ${
+                s.tone === "emerald"
+                  ? "text-emerald-600"
+                  : s.tone === "amber"
+                  ? "text-amber-600"
+                  : "text-foreground"
+              }`}
+            >
+              {s.value}
+            </p>
+          </div>
+        ))}
+      </div>
 
       <ErrorBoundary>
-      {movements.length === 0 ? (
-        <EmptyState
-          icon={ArrowUpDown}
-          title="No stock movements recorded"
-          description="Movements track stock changes — receipts, shipments, adjustments, and transfers."
-          actionLabel="Log Movement"
-          onAction={() => setFormOpen(true)}
-        />
-      ) : (
-        <MovementsTable movements={filtered} itemNameMap={itemNameMap} locationNameMap={locationNameMap} />
-      )}
+        {transactions.length === 0 ? (
+          <EmptyState
+            icon={Receipt}
+            title="No transactions yet"
+            description="Record your first sale to start tracking receipts, payments, and customer history."
+            actionLabel="Add sale"
+            onAction={() => setFormOpen(true)}
+          />
+        ) : (
+          <TransactionsTable transactions={transactions} itemNameMap={itemNameMap} />
+        )}
       </ErrorBoundary>
 
-      <MovementFormSheet
-        open={formOpen}
-        onOpenChange={setFormOpen}
-        items={items}
-        locations={locations}
-      />
+      <AddSaleSheet open={formOpen} onOpenChange={setFormOpen} items={items} />
     </div>
   );
 }

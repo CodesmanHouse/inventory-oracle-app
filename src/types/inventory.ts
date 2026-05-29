@@ -107,6 +107,28 @@ export interface Supplier {
   updatedAt: string;
 }
 
+export type PaymentMethod = "cash" | "card" | "mobile" | "bank_transfer" | "credit";
+export type TransactionStatus = "paid" | "partial" | "pending" | "void";
+
+export interface SaleDetails {
+  receiptNumber: string;
+  unitPrice: number;
+  totalAmount: number;
+  discount: number;
+  vat: number;
+  cumulativeAmount: number;
+  deposit: number;
+  balance: number;
+  paymentMethod: PaymentMethod;
+  amountTendered: number;
+  changeDue: number;
+  staff: string;
+  customer: string;
+  telephone: string;
+  email: string;
+  status: TransactionStatus;
+}
+
 export interface StockMovement {
   id: string;
   itemId: string;
@@ -118,6 +140,7 @@ export interface StockMovement {
   notes: string;
   performedBy: string;
   createdAt: string;
+  sale?: SaleDetails | null;
 }
 
 export interface PurchaseOrderItem {
