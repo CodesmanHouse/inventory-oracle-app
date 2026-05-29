@@ -36,7 +36,7 @@ const navGroups: NavGroup[] = [
     label: "Operations",
     items: [
       { label: "Dashboard", href: "/app/dashboard", icon: LayoutDashboard },
-      { label: "Catalog", href: "/app/catalog", icon: Package },
+      { label: "Inventory", href: "/app/catalog", icon: Package },
       { label: "Movements", href: "/app/movements", icon: ArrowLeftRight, permKey: "canLogMovements" },
       { label: "Locations", href: "/app/locations", icon: MapPin },
     ],

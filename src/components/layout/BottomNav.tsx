@@ -7,7 +7,7 @@ import { Sidebar } from "./Sidebar";
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/app/dashboard", icon: LayoutDashboard },
-  { label: "Catalog", href: "/app/catalog", icon: Package },
+  { label: "Inventory", href: "/app/catalog", icon: Package },
   { label: "Movements", href: "/app/movements", icon: ArrowLeftRight },
   { label: "Orders", href: "/app/purchase-orders", icon: ClipboardList },
 ] as const;
