@@ -5,6 +5,7 @@ import {
   ArrowLeftRight,
   Truck,
   ClipboardList,
+  ShoppingBag,
   Inbox,
   MapPin,
   BarChart3,
