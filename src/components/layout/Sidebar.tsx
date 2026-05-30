@@ -13,6 +13,7 @@ import {
   Settings,
   ChevronRight,
   HelpCircle,
+  Landmark,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,12 @@ const navGroups: NavGroup[] = [
       { label: "Orders", href: "/app/orders", icon: ShoppingBag },
       { label: "Transactions", href: "/app/movements", icon: ArrowLeftRight, permKey: "canLogMovements" },
       { label: "Locations", href: "/app/locations", icon: MapPin },
+    ],
+  },
+  {
+    label: "Finance",
+    items: [
+      { label: "Bank", href: "/app/bank", icon: Landmark },
     ],
   },
   {
