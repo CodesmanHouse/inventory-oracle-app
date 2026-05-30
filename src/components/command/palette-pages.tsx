@@ -4,6 +4,7 @@ import {
   ArrowRightLeft,
   Truck,
   ShoppingCart,
+  ShoppingBag,
   ClipboardList,
   MapPin,
   Settings,
@@ -18,6 +19,7 @@ export interface PageDef {
 export const PAGES: PageDef[] = [
   { label: "Dashboard", path: "/app/dashboard", icon: <LayoutDashboard className="h-4 w-4" /> },
   { label: "Inventory", path: "/app/catalog", icon: <Package className="h-4 w-4" /> },
+  { label: "Orders", path: "/app/orders", icon: <ShoppingBag className="h-4 w-4" /> },
   { label: "Transactions", path: "/app/movements", icon: <ArrowRightLeft className="h-4 w-4" /> },
   { label: "Suppliers", path: "/app/suppliers", icon: <Truck className="h-4 w-4" /> },
   { label: "Purchase Orders", path: "/app/purchase-orders", icon: <ShoppingCart className="h-4 w-4" /> },
