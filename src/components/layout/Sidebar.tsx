@@ -45,6 +45,12 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "Finance",
+    items: [
+      { label: "Bank", href: "/app/bank", icon: Landmark },
+    ],
+  },
+  {
     label: "Procurement",
     permKey: "canManagePOs",
     items: [
