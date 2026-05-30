@@ -13,6 +13,7 @@ import {
   Settings,
   ChevronRight,
   HelpCircle,
+  Landmark,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
