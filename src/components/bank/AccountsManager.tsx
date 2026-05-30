@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Plus, Building2, Trash2, Pencil, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -168,20 +168,27 @@ function AccountSheet({
     status: "active" as "active" | "inactive",
   });
 
-  // Reset on open
-  if (open && initial && form.accountName !== initial.accountName) {
-    setForm({
-      accountName: initial.accountName,
-      accountNumber: initial.accountNumber,
-      bankName: initial.bankName,
-      branch: initial.branch,
-      swiftCode: initial.swiftCode,
-      currency: initial.currency,
-      openingBalance: String(initial.openingBalance),
-      currentBalance: String(initial.currentBalance),
-      status: initial.status,
-    });
-  }
+  useEffect(() => {
+    if (!open) return;
+    if (initial) {
+      setForm({
+        accountName: initial.accountName,
+        accountNumber: initial.accountNumber,
+        bankName: initial.bankName,
+        branch: initial.branch,
+        swiftCode: initial.swiftCode,
+        currency: initial.currency,
+        openingBalance: String(initial.openingBalance),
+        currentBalance: String(initial.currentBalance),
+        status: initial.status,
+      });
+    } else {
+      setForm({
+        accountName: "", accountNumber: "", bankName: "", branch: "", swiftCode: "",
+        currency: "KES", openingBalance: "0", currentBalance: "0", status: "active",
+      });
+    }
+  }, [open, initial]);
 
   const valid = form.accountName.trim() && form.accountNumber.trim() && form.bankName.trim();
 
