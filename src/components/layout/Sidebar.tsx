@@ -38,6 +38,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Dashboard", href: "/app/dashboard", icon: LayoutDashboard },
       { label: "Inventory", href: "/app/catalog", icon: Package },
+      { label: "Orders", href: "/app/orders", icon: ShoppingBag },
       { label: "Transactions", href: "/app/movements", icon: ArrowLeftRight, permKey: "canLogMovements" },
       { label: "Locations", href: "/app/locations", icon: MapPin },
     ],
