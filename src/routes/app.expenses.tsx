@@ -8,6 +8,8 @@ import { ExpensesDashboard } from "@/components/expenses/ExpensesDashboard";
 import { ExpensesTable } from "@/components/expenses/ExpensesTable";
 import { ExpenseFormSheet } from "@/components/expenses/ExpenseFormSheet";
 import { CategoriesPanel, BudgetsPanel, ReportsPanel, AuditLogPanel } from "@/components/expenses/ExpensePanels";
+import { ExpenseInsights, ExpenseHeatmap } from "@/components/expenses/ExpenseInsights";
+import { ReceiptScanner } from "@/components/expenses/ReceiptScanner";
 
 export const Route = createFileRoute("/app/expenses")({
   component: ExpensesPage,
