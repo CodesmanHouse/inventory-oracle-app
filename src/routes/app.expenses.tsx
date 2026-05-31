@@ -8,6 +8,8 @@ import { ExpensesDashboard } from "@/components/expenses/ExpensesDashboard";
 import { ExpensesTable } from "@/components/expenses/ExpensesTable";
 import { ExpenseFormSheet } from "@/components/expenses/ExpenseFormSheet";
 import { CategoriesPanel, BudgetsPanel, ReportsPanel, AuditLogPanel } from "@/components/expenses/ExpensePanels";
+import { ExpenseInsights, ExpenseHeatmap } from "@/components/expenses/ExpenseInsights";
+import { ReceiptScanner } from "@/components/expenses/ReceiptScanner";
 
 export const Route = createFileRoute("/app/expenses")({
   component: ExpensesPage,
@@ -65,7 +67,12 @@ function ExpensesPage() {
           <Tab value="audit" icon={History} label="Audit logs" />
         </TabsList>
 
-        <TabsContent value="dashboard" className="mt-5">
+        <TabsContent value="dashboard" className="mt-5 space-y-6">
+          <ExpenseInsights expenses={store.expenses} categories={store.categories} />
+          <div className="grid gap-4 lg:grid-cols-3">
+            <div className="lg:col-span-2"><ExpenseHeatmap expenses={store.expenses} /></div>
+            <ReceiptScanner categories={store.categories} onCapture={store.addExpense} />
+          </div>
           <ExpensesDashboard expenses={store.expenses} categories={store.categories} />
         </TabsContent>
 
