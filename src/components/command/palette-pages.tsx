@@ -9,6 +9,7 @@ import {
   MapPin,
   Settings,
   Landmark,
+  Receipt,
 } from "lucide-react";
 
 export interface PageDef {
@@ -23,6 +24,7 @@ export const PAGES: PageDef[] = [
   { label: "Orders", path: "/app/orders", icon: <ShoppingBag className="h-4 w-4" /> },
   { label: "Transactions", path: "/app/movements", icon: <ArrowRightLeft className="h-4 w-4" /> },
   { label: "Bank", path: "/app/bank", icon: <Landmark className="h-4 w-4" /> },
+  { label: "Expenses", path: "/app/expenses", icon: <Receipt className="h-4 w-4" /> },
   { label: "Suppliers", path: "/app/suppliers", icon: <Truck className="h-4 w-4" /> },
   { label: "Purchase Orders", path: "/app/purchase-orders", icon: <ShoppingCart className="h-4 w-4" /> },
   { label: "Requests", path: "/app/requests", icon: <ClipboardList className="h-4 w-4" /> },
