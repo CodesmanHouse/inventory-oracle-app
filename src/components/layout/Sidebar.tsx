@@ -14,6 +14,7 @@ import {
   ChevronRight,
   HelpCircle,
   Landmark,
+  Receipt,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
@@ -48,6 +49,7 @@ const navGroups: NavGroup[] = [
     label: "Finance",
     items: [
       { label: "Bank", href: "/app/bank", icon: Landmark },
+      { label: "Expenses", href: "/app/expenses", icon: Receipt },
     ],
   },
   {
