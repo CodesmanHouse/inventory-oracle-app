@@ -9,6 +9,7 @@ const ROUTE_ACCESS: Record<string, UserRoleType[]> = {
   "/app/suppliers": ["admin", "manager"],
   "/app/purchase-orders": ["admin", "manager", "requestor"],
   "/app/orders": ["admin", "manager", "requestor"],
+  "/app/customers": ["admin", "manager", "requestor"],
   "/app/bank": ["admin", "manager"],
   "/app/expenses": ["admin", "manager", "requestor"],
   "/app/locations": ["admin", "manager", "requestor"],
