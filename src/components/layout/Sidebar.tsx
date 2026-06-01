@@ -15,6 +15,7 @@ import {
   HelpCircle,
   Landmark,
   Receipt,
+  Users,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,7 @@ const navGroups: NavGroup[] = [
       { label: "Dashboard", href: "/app/dashboard", icon: LayoutDashboard },
       { label: "Inventory", href: "/app/catalog", icon: Package },
       { label: "Orders", href: "/app/orders", icon: ShoppingBag },
+      { label: "Customers", href: "/app/customers", icon: Users },
       { label: "Transactions", href: "/app/movements", icon: ArrowLeftRight, permKey: "canLogMovements" },
       { label: "Locations", href: "/app/locations", icon: MapPin },
     ],
