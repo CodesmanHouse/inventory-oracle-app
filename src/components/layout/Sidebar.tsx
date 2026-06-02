@@ -16,6 +16,8 @@ import {
   Landmark,
   Receipt,
   Users,
+  ArrowDownToLine,
+  ArrowUpFromLine,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
@@ -51,6 +53,8 @@ const navGroups: NavGroup[] = [
     label: "Finance",
     items: [
       { label: "Bank", href: "/app/bank", icon: Landmark },
+      { label: "Debtors", href: "/app/debtors", icon: ArrowDownToLine },
+      { label: "Creditors", href: "/app/creditors", icon: ArrowUpFromLine },
       { label: "Expenses", href: "/app/expenses", icon: Receipt },
     ],
   },
