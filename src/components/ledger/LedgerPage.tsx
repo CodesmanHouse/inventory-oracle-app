@@ -42,7 +42,7 @@ interface Props {
 }
 
 export function LedgerPage({ kind }: Props) {
-  const { entries, add, update, remove, pay } = useLedger(kind);
+  const { entries, add, remove, pay } = useLedger(kind);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<EntryStatus | "all">("all");
   const [bucketFilter, setBucketFilter] = useState<ReturnType<typeof bucket> | "all">("all");
@@ -392,8 +392,6 @@ export function LedgerPage({ kind }: Props) {
           toast.success(`KES ${payment.amount.toLocaleString()} recorded`);
         }}
       />
-      {/* update is reserved for future inline edits */}
-      {false && update && null}
     </div>
   );
 }

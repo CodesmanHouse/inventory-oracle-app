@@ -21,8 +21,10 @@ import { Route as AppMovementsRouteImport } from './routes/app.movements'
 import { Route as AppLocationsRouteImport } from './routes/app.locations'
 import { Route as AppHelpRouteImport } from './routes/app.help'
 import { Route as AppExpensesRouteImport } from './routes/app.expenses'
+import { Route as AppDebtorsRouteImport } from './routes/app.debtors'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomersRouteImport } from './routes/app.customers'
+import { Route as AppCreditorsRouteImport } from './routes/app.creditors'
 import { Route as AppCatalogRouteImport } from './routes/app.catalog'
 import { Route as AppBankRouteImport } from './routes/app.bank'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
@@ -88,6 +90,11 @@ const AppExpensesRoute = AppExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AppRoute,
 } as any)
+const AppDebtorsRoute = AppDebtorsRouteImport.update({
+  id: '/debtors',
+  path: '/debtors',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -96,6 +103,11 @@ const AppDashboardRoute = AppDashboardRouteImport.update({
 const AppCustomersRoute = AppCustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppCreditorsRoute = AppCreditorsRouteImport.update({
+  id: '/creditors',
+  path: '/creditors',
   getParentRoute: () => AppRoute,
 } as any)
 const AppCatalogRoute = AppCatalogRouteImport.update({
@@ -126,8 +138,10 @@ export interface FileRoutesByFullPath {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
+  '/app/creditors': typeof AppCreditorsRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/debtors': typeof AppDebtorsRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -145,8 +159,10 @@ export interface FileRoutesByTo {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
+  '/app/creditors': typeof AppCreditorsRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/debtors': typeof AppDebtorsRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -166,8 +182,10 @@ export interface FileRoutesById {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
+  '/app/creditors': typeof AppCreditorsRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
+  '/app/debtors': typeof AppDebtorsRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -188,8 +206,10 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/bank'
     | '/app/catalog'
+    | '/app/creditors'
     | '/app/customers'
     | '/app/dashboard'
+    | '/app/debtors'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -207,8 +227,10 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/bank'
     | '/app/catalog'
+    | '/app/creditors'
     | '/app/customers'
     | '/app/dashboard'
+    | '/app/debtors'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -227,8 +249,10 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/bank'
     | '/app/catalog'
+    | '/app/creditors'
     | '/app/customers'
     | '/app/dashboard'
+    | '/app/debtors'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -332,6 +356,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExpensesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/debtors': {
+      id: '/app/debtors'
+      path: '/debtors'
+      fullPath: '/app/debtors'
+      preLoaderRoute: typeof AppDebtorsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/dashboard': {
       id: '/app/dashboard'
       path: '/dashboard'
@@ -344,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/customers'
       fullPath: '/app/customers'
       preLoaderRoute: typeof AppCustomersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/creditors': {
+      id: '/app/creditors'
+      path: '/creditors'
+      fullPath: '/app/creditors'
+      preLoaderRoute: typeof AppCreditorsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/catalog': {
@@ -382,8 +420,10 @@ interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppBankRoute: typeof AppBankRoute
   AppCatalogRoute: typeof AppCatalogRoute
+  AppCreditorsRoute: typeof AppCreditorsRoute
   AppCustomersRoute: typeof AppCustomersRoute
   AppDashboardRoute: typeof AppDashboardRoute
+  AppDebtorsRoute: typeof AppDebtorsRoute
   AppExpensesRoute: typeof AppExpensesRoute
   AppHelpRoute: typeof AppHelpRoute
   AppLocationsRoute: typeof AppLocationsRoute
@@ -401,8 +441,10 @@ const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppBankRoute: AppBankRoute,
   AppCatalogRoute: AppCatalogRoute,
+  AppCreditorsRoute: AppCreditorsRoute,
   AppCustomersRoute: AppCustomersRoute,
   AppDashboardRoute: AppDashboardRoute,
+  AppDebtorsRoute: AppDebtorsRoute,
   AppExpensesRoute: AppExpensesRoute,
   AppHelpRoute: AppHelpRoute,
   AppLocationsRoute: AppLocationsRoute,
