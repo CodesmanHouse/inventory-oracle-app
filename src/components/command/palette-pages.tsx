@@ -11,6 +11,8 @@ import {
   Landmark,
   Receipt,
   Users,
+  ArrowDownToLine,
+  ArrowUpFromLine,
 } from "lucide-react";
 
 export interface PageDef {
@@ -26,6 +28,8 @@ export const PAGES: PageDef[] = [
   { label: "Customers", path: "/app/customers", icon: <Users className="h-4 w-4" /> },
   { label: "Transactions", path: "/app/movements", icon: <ArrowRightLeft className="h-4 w-4" /> },
   { label: "Bank", path: "/app/bank", icon: <Landmark className="h-4 w-4" /> },
+  { label: "Debtors", path: "/app/debtors", icon: <ArrowDownToLine className="h-4 w-4" /> },
+  { label: "Creditors", path: "/app/creditors", icon: <ArrowUpFromLine className="h-4 w-4" /> },
   { label: "Expenses", path: "/app/expenses", icon: <Receipt className="h-4 w-4" /> },
   { label: "Suppliers", path: "/app/suppliers", icon: <Truck className="h-4 w-4" /> },
   { label: "Purchase Orders", path: "/app/purchase-orders", icon: <ShoppingCart className="h-4 w-4" /> },
