@@ -21,6 +21,7 @@ import { Route as AppMovementsRouteImport } from './routes/app.movements'
 import { Route as AppLocationsRouteImport } from './routes/app.locations'
 import { Route as AppHelpRouteImport } from './routes/app.help'
 import { Route as AppExpensesRouteImport } from './routes/app.expenses'
+import { Route as AppEmployeesRouteImport } from './routes/app.employees'
 import { Route as AppDebtorsRouteImport } from './routes/app.debtors'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomersRouteImport } from './routes/app.customers'
@@ -90,6 +91,11 @@ const AppExpensesRoute = AppExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEmployeesRoute = AppEmployeesRouteImport.update({
+  id: '/employees',
+  path: '/employees',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDebtorsRoute = AppDebtorsRouteImport.update({
   id: '/debtors',
   path: '/debtors',
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/debtors': typeof AppDebtorsRoute
+  '/app/employees': typeof AppEmployeesRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/debtors': typeof AppDebtorsRoute
+  '/app/employees': typeof AppEmployeesRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/debtors': typeof AppDebtorsRoute
+  '/app/employees': typeof AppEmployeesRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -210,6 +219,7 @@ export interface FileRouteTypes {
     | '/app/customers'
     | '/app/dashboard'
     | '/app/debtors'
+    | '/app/employees'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/app/customers'
     | '/app/dashboard'
     | '/app/debtors'
+    | '/app/employees'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/app/customers'
     | '/app/dashboard'
     | '/app/debtors'
+    | '/app/employees'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -356,6 +368,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExpensesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/employees': {
+      id: '/app/employees'
+      path: '/employees'
+      fullPath: '/app/employees'
+      preLoaderRoute: typeof AppEmployeesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/debtors': {
       id: '/app/debtors'
       path: '/debtors'
@@ -424,6 +443,7 @@ interface AppRouteChildren {
   AppCustomersRoute: typeof AppCustomersRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDebtorsRoute: typeof AppDebtorsRoute
+  AppEmployeesRoute: typeof AppEmployeesRoute
   AppExpensesRoute: typeof AppExpensesRoute
   AppHelpRoute: typeof AppHelpRoute
   AppLocationsRoute: typeof AppLocationsRoute
@@ -445,6 +465,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppCustomersRoute: AppCustomersRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDebtorsRoute: AppDebtorsRoute,
+  AppEmployeesRoute: AppEmployeesRoute,
   AppExpensesRoute: AppExpensesRoute,
   AppHelpRoute: AppHelpRoute,
   AppLocationsRoute: AppLocationsRoute,
