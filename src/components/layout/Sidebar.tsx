@@ -18,6 +18,8 @@ import {
   Users,
   ArrowDownToLine,
   ArrowUpFromLine,
+  UserSquare2,
+  MessageSquare,
 } from "lucide-react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
@@ -56,6 +58,13 @@ const navGroups: NavGroup[] = [
       { label: "Debtors", href: "/app/debtors", icon: ArrowDownToLine },
       { label: "Creditors", href: "/app/creditors", icon: ArrowUpFromLine },
       { label: "Expenses", href: "/app/expenses", icon: Receipt },
+    ],
+  },
+  {
+    label: "Workplace",
+    items: [
+      { label: "Employees", href: "/app/employees", icon: UserSquare2, permKey: "canManageItems" },
+      { label: "Chatroom", href: "/app/chat", icon: MessageSquare },
     ],
   },
   {

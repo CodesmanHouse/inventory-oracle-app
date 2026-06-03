@@ -21,10 +21,12 @@ import { Route as AppMovementsRouteImport } from './routes/app.movements'
 import { Route as AppLocationsRouteImport } from './routes/app.locations'
 import { Route as AppHelpRouteImport } from './routes/app.help'
 import { Route as AppExpensesRouteImport } from './routes/app.expenses'
+import { Route as AppEmployeesRouteImport } from './routes/app.employees'
 import { Route as AppDebtorsRouteImport } from './routes/app.debtors'
 import { Route as AppDashboardRouteImport } from './routes/app.dashboard'
 import { Route as AppCustomersRouteImport } from './routes/app.customers'
 import { Route as AppCreditorsRouteImport } from './routes/app.creditors'
+import { Route as AppChatRouteImport } from './routes/app.chat'
 import { Route as AppCatalogRouteImport } from './routes/app.catalog'
 import { Route as AppBankRouteImport } from './routes/app.bank'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
@@ -90,6 +92,11 @@ const AppExpensesRoute = AppExpensesRouteImport.update({
   path: '/expenses',
   getParentRoute: () => AppRoute,
 } as any)
+const AppEmployeesRoute = AppEmployeesRouteImport.update({
+  id: '/employees',
+  path: '/employees',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppDebtorsRoute = AppDebtorsRouteImport.update({
   id: '/debtors',
   path: '/debtors',
@@ -108,6 +115,11 @@ const AppCustomersRoute = AppCustomersRouteImport.update({
 const AppCreditorsRoute = AppCreditorsRouteImport.update({
   id: '/creditors',
   path: '/creditors',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppChatRoute = AppChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => AppRoute,
 } as any)
 const AppCatalogRoute = AppCatalogRouteImport.update({
@@ -138,10 +150,12 @@ export interface FileRoutesByFullPath {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
+  '/app/chat': typeof AppChatRoute
   '/app/creditors': typeof AppCreditorsRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/debtors': typeof AppDebtorsRoute
+  '/app/employees': typeof AppEmployeesRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -159,10 +173,12 @@ export interface FileRoutesByTo {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
+  '/app/chat': typeof AppChatRoute
   '/app/creditors': typeof AppCreditorsRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/debtors': typeof AppDebtorsRoute
+  '/app/employees': typeof AppEmployeesRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -182,10 +198,12 @@ export interface FileRoutesById {
   '/app/analytics': typeof AppAnalyticsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
+  '/app/chat': typeof AppChatRoute
   '/app/creditors': typeof AppCreditorsRoute
   '/app/customers': typeof AppCustomersRoute
   '/app/dashboard': typeof AppDashboardRoute
   '/app/debtors': typeof AppDebtorsRoute
+  '/app/employees': typeof AppEmployeesRoute
   '/app/expenses': typeof AppExpensesRoute
   '/app/help': typeof AppHelpRoute
   '/app/locations': typeof AppLocationsRoute
@@ -206,10 +224,12 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/bank'
     | '/app/catalog'
+    | '/app/chat'
     | '/app/creditors'
     | '/app/customers'
     | '/app/dashboard'
     | '/app/debtors'
+    | '/app/employees'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -227,10 +247,12 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/bank'
     | '/app/catalog'
+    | '/app/chat'
     | '/app/creditors'
     | '/app/customers'
     | '/app/dashboard'
     | '/app/debtors'
+    | '/app/employees'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -249,10 +271,12 @@ export interface FileRouteTypes {
     | '/app/analytics'
     | '/app/bank'
     | '/app/catalog'
+    | '/app/chat'
     | '/app/creditors'
     | '/app/customers'
     | '/app/dashboard'
     | '/app/debtors'
+    | '/app/employees'
     | '/app/expenses'
     | '/app/help'
     | '/app/locations'
@@ -356,6 +380,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExpensesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/employees': {
+      id: '/app/employees'
+      path: '/employees'
+      fullPath: '/app/employees'
+      preLoaderRoute: typeof AppEmployeesRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/debtors': {
       id: '/app/debtors'
       path: '/debtors'
@@ -382,6 +413,13 @@ declare module '@tanstack/react-router' {
       path: '/creditors'
       fullPath: '/app/creditors'
       preLoaderRoute: typeof AppCreditorsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/chat': {
+      id: '/app/chat'
+      path: '/chat'
+      fullPath: '/app/chat'
+      preLoaderRoute: typeof AppChatRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/catalog': {
@@ -420,10 +458,12 @@ interface AppRouteChildren {
   AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppBankRoute: typeof AppBankRoute
   AppCatalogRoute: typeof AppCatalogRoute
+  AppChatRoute: typeof AppChatRoute
   AppCreditorsRoute: typeof AppCreditorsRoute
   AppCustomersRoute: typeof AppCustomersRoute
   AppDashboardRoute: typeof AppDashboardRoute
   AppDebtorsRoute: typeof AppDebtorsRoute
+  AppEmployeesRoute: typeof AppEmployeesRoute
   AppExpensesRoute: typeof AppExpensesRoute
   AppHelpRoute: typeof AppHelpRoute
   AppLocationsRoute: typeof AppLocationsRoute
@@ -441,10 +481,12 @@ const AppRouteChildren: AppRouteChildren = {
   AppAnalyticsRoute: AppAnalyticsRoute,
   AppBankRoute: AppBankRoute,
   AppCatalogRoute: AppCatalogRoute,
+  AppChatRoute: AppChatRoute,
   AppCreditorsRoute: AppCreditorsRoute,
   AppCustomersRoute: AppCustomersRoute,
   AppDashboardRoute: AppDashboardRoute,
   AppDebtorsRoute: AppDebtorsRoute,
+  AppEmployeesRoute: AppEmployeesRoute,
   AppExpensesRoute: AppExpensesRoute,
   AppHelpRoute: AppHelpRoute,
   AppLocationsRoute: AppLocationsRoute,
