@@ -14,16 +14,14 @@ const ROUTE_ACCESS: Record<string, UserRoleType[]> = {
   "/app/debtors": ["admin", "manager"],
   "/app/creditors": ["admin", "manager"],
   "/app/expenses": ["admin", "manager", "requestor"],
+  "/app/employees": ["admin", "manager"],
+  "/app/chat": ["admin", "manager", "requestor"],
   "/app/locations": ["admin", "manager", "requestor"],
   "/app/analytics": ["admin", "manager"],
   "/app/ai-insights": ["admin", "manager"],
   "/app/settings": ["admin"],
 };
 
-/**
- * Returns true if the given role can access the path.
- * Unknown paths default to admin-only.
- */
 export function canAccessRoute(path: string, role: UserRoleType): boolean {
   const allowed = ROUTE_ACCESS[path];
   if (!allowed) return role === "admin";
