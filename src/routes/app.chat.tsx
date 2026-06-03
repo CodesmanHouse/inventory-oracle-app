@@ -1,6 +1,6 @@
 import { useMemo, useState, useRef, useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Search, Hash, Users, Pin, Bell, Phone, Video, Info, MessageSquare, Megaphone, Sparkles, Smile } from "lucide-react";
+import { Search, Pin, Bell, Phone, Video, Info, MessageSquare, Megaphone, Sparkles, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

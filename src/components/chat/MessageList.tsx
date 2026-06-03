@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Pin, Reply, Smile, MoreHorizontal, FileText, Image as ImageIcon, Download, Check, CheckCheck, Trash2, Pencil, Bookmark } from "lucide-react";
+import { Pin, Reply, Smile, MoreHorizontal, FileText, Image as ImageIcon, Download, CheckCheck, Trash2, Pencil, Bookmark } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
