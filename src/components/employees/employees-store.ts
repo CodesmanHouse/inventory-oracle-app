@@ -66,9 +66,8 @@ export function EmployeesProvider({ children }: { children: ReactNode }) {
 
 export function useEmployees(): Ctx {
   const ctx = useContext(EmployeesCtx);
-  if (ctx) return ctx;
-  // Fallback singleton so the page works without provider mounting
   const [employees, setEmployees] = useState<Employee[]>(SEED);
+  if (ctx) return ctx;
   return {
     employees,
     add: (e) => {

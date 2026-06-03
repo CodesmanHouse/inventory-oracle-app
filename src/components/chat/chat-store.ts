@@ -154,7 +154,6 @@ function useChatStore(): Ctx {
 
 export function useChat(): Ctx {
   const ctx = useContext(ChatCtx);
-  // Standalone fallback — works without provider
   const local = useChatStore();
   return ctx ?? local;
 }
