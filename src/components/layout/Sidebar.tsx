@@ -61,6 +61,13 @@ const navGroups: NavGroup[] = [
     ],
   },
   {
+    label: "Workplace",
+    items: [
+      { label: "Employees", href: "/app/employees", icon: UserSquare2, permKey: "canManageItems" },
+      { label: "Chatroom", href: "/app/chat", icon: MessageSquare },
+    ],
+  },
+  {
     label: "Procurement",
     permKey: "canManagePOs",
     items: [
