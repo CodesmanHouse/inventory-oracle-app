@@ -15,6 +15,7 @@ import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppSuppliersRouteImport } from './routes/app.suppliers'
 import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppRequestsRouteImport } from './routes/app.requests'
+import { Route as AppReportsRouteImport } from './routes/app.reports'
 import { Route as AppPurchaseOrdersRouteImport } from './routes/app.purchase-orders'
 import { Route as AppOrdersRouteImport } from './routes/app.orders'
 import { Route as AppMovementsRouteImport } from './routes/app.movements'
@@ -29,6 +30,7 @@ import { Route as AppCreditorsRouteImport } from './routes/app.creditors'
 import { Route as AppChatRouteImport } from './routes/app.chat'
 import { Route as AppCatalogRouteImport } from './routes/app.catalog'
 import { Route as AppBankRouteImport } from './routes/app.bank'
+import { Route as AppAssetsRouteImport } from './routes/app.assets'
 import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppAiInsightsRouteImport } from './routes/app.ai-insights'
 
@@ -60,6 +62,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
 const AppRequestsRoute = AppRequestsRouteImport.update({
   id: '/requests',
   path: '/requests',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AppRoute,
 } as any)
 const AppPurchaseOrdersRoute = AppPurchaseOrdersRouteImport.update({
@@ -132,6 +139,11 @@ const AppBankRoute = AppBankRouteImport.update({
   path: '/bank',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAssetsRoute = AppAssetsRouteImport.update({
+  id: '/assets',
+  path: '/assets',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
   id: '/analytics',
   path: '/analytics',
@@ -148,6 +160,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AppRouteWithChildren
   '/app/ai-insights': typeof AppAiInsightsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/assets': typeof AppAssetsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
   '/app/chat': typeof AppChatRoute
@@ -162,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/app/movements': typeof AppMovementsRoute
   '/app/orders': typeof AppOrdersRoute
   '/app/purchase-orders': typeof AppPurchaseOrdersRoute
+  '/app/reports': typeof AppReportsRoute
   '/app/requests': typeof AppRequestsRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/suppliers': typeof AppSuppliersRoute
@@ -171,6 +185,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/app/ai-insights': typeof AppAiInsightsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/assets': typeof AppAssetsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
   '/app/chat': typeof AppChatRoute
@@ -185,6 +200,7 @@ export interface FileRoutesByTo {
   '/app/movements': typeof AppMovementsRoute
   '/app/orders': typeof AppOrdersRoute
   '/app/purchase-orders': typeof AppPurchaseOrdersRoute
+  '/app/reports': typeof AppReportsRoute
   '/app/requests': typeof AppRequestsRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/suppliers': typeof AppSuppliersRoute
@@ -196,6 +212,7 @@ export interface FileRoutesById {
   '/app': typeof AppRouteWithChildren
   '/app/ai-insights': typeof AppAiInsightsRoute
   '/app/analytics': typeof AppAnalyticsRoute
+  '/app/assets': typeof AppAssetsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
   '/app/chat': typeof AppChatRoute
@@ -210,6 +227,7 @@ export interface FileRoutesById {
   '/app/movements': typeof AppMovementsRoute
   '/app/orders': typeof AppOrdersRoute
   '/app/purchase-orders': typeof AppPurchaseOrdersRoute
+  '/app/reports': typeof AppReportsRoute
   '/app/requests': typeof AppRequestsRoute
   '/app/settings': typeof AppSettingsRoute
   '/app/suppliers': typeof AppSuppliersRoute
@@ -222,6 +240,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/ai-insights'
     | '/app/analytics'
+    | '/app/assets'
     | '/app/bank'
     | '/app/catalog'
     | '/app/chat'
@@ -236,6 +255,7 @@ export interface FileRouteTypes {
     | '/app/movements'
     | '/app/orders'
     | '/app/purchase-orders'
+    | '/app/reports'
     | '/app/requests'
     | '/app/settings'
     | '/app/suppliers'
@@ -245,6 +265,7 @@ export interface FileRouteTypes {
     | '/'
     | '/app/ai-insights'
     | '/app/analytics'
+    | '/app/assets'
     | '/app/bank'
     | '/app/catalog'
     | '/app/chat'
@@ -259,6 +280,7 @@ export interface FileRouteTypes {
     | '/app/movements'
     | '/app/orders'
     | '/app/purchase-orders'
+    | '/app/reports'
     | '/app/requests'
     | '/app/settings'
     | '/app/suppliers'
@@ -269,6 +291,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/ai-insights'
     | '/app/analytics'
+    | '/app/assets'
     | '/app/bank'
     | '/app/catalog'
     | '/app/chat'
@@ -283,6 +306,7 @@ export interface FileRouteTypes {
     | '/app/movements'
     | '/app/orders'
     | '/app/purchase-orders'
+    | '/app/reports'
     | '/app/requests'
     | '/app/settings'
     | '/app/suppliers'
@@ -336,6 +360,13 @@ declare module '@tanstack/react-router' {
       path: '/requests'
       fullPath: '/app/requests'
       preLoaderRoute: typeof AppRequestsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/app/reports': {
+      id: '/app/reports'
+      path: '/reports'
+      fullPath: '/app/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/purchase-orders': {
@@ -436,6 +467,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppBankRouteImport
       parentRoute: typeof AppRoute
     }
+    '/app/assets': {
+      id: '/app/assets'
+      path: '/assets'
+      fullPath: '/app/assets'
+      preLoaderRoute: typeof AppAssetsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/app/analytics': {
       id: '/app/analytics'
       path: '/analytics'
@@ -456,6 +494,7 @@ declare module '@tanstack/react-router' {
 interface AppRouteChildren {
   AppAiInsightsRoute: typeof AppAiInsightsRoute
   AppAnalyticsRoute: typeof AppAnalyticsRoute
+  AppAssetsRoute: typeof AppAssetsRoute
   AppBankRoute: typeof AppBankRoute
   AppCatalogRoute: typeof AppCatalogRoute
   AppChatRoute: typeof AppChatRoute
@@ -470,6 +509,7 @@ interface AppRouteChildren {
   AppMovementsRoute: typeof AppMovementsRoute
   AppOrdersRoute: typeof AppOrdersRoute
   AppPurchaseOrdersRoute: typeof AppPurchaseOrdersRoute
+  AppReportsRoute: typeof AppReportsRoute
   AppRequestsRoute: typeof AppRequestsRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppSuppliersRoute: typeof AppSuppliersRoute
@@ -479,6 +519,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppAiInsightsRoute: AppAiInsightsRoute,
   AppAnalyticsRoute: AppAnalyticsRoute,
+  AppAssetsRoute: AppAssetsRoute,
   AppBankRoute: AppBankRoute,
   AppCatalogRoute: AppCatalogRoute,
   AppChatRoute: AppChatRoute,
@@ -493,6 +534,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppMovementsRoute: AppMovementsRoute,
   AppOrdersRoute: AppOrdersRoute,
   AppPurchaseOrdersRoute: AppPurchaseOrdersRoute,
+  AppReportsRoute: AppReportsRoute,
   AppRequestsRoute: AppRequestsRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppSuppliersRoute: AppSuppliersRoute,

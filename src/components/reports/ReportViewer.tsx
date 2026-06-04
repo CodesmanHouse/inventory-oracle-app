@@ -91,7 +91,7 @@ export function ReportViewer({ reportKey, title, range, granularity, inputs, cat
 }
 
 interface BuildResult {
-  rows: (ExportRow & { __bold?: boolean })[];
+  rows: Array<Record<string, string | number> & { __bold?: boolean }>;
   totals?: { label: string; value: string; tone?: "ok" | "danger" }[];
 }
 
@@ -99,11 +99,8 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
   if (key === "income_statement") {
     const r = buildIncomeStatement(i, range);
     return {
-      rows: r.rows.map((row) => ({
-        Line: row.label,
-        Amount: fmt(row.amount),
-        __bold: row.bold,
-      } as ExportRow & { __bold?: boolean })),
+      rows: r.rows.map((row) => ({ Line: row.label, Amount: fmt(row.amount), __bold: row.bold })),
+
       totals: [{ label: "Net income", value: fmt(r.netIncome), tone: r.netIncome >= 0 ? "ok" : "danger" }],
     };
   }
