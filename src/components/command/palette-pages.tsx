@@ -15,7 +15,10 @@ import {
   ArrowUpFromLine,
   UserSquare2,
   MessageSquare,
+  Boxes,
+  FileBarChart2,
 } from "lucide-react";
+
 
 export interface PageDef {
   label: string;
@@ -35,6 +38,9 @@ export const PAGES: PageDef[] = [
   { label: "Expenses", path: "/app/expenses", icon: <Receipt className="h-4 w-4" /> },
   { label: "Employees", path: "/app/employees", icon: <UserSquare2 className="h-4 w-4" /> },
   { label: "Chatroom", path: "/app/chat", icon: <MessageSquare className="h-4 w-4" /> },
+  { label: "Assets", path: "/app/assets", icon: <Boxes className="h-4 w-4" /> },
+  { label: "Reports", path: "/app/reports", icon: <FileBarChart2 className="h-4 w-4" /> },
+
   { label: "Suppliers", path: "/app/suppliers", icon: <Truck className="h-4 w-4" /> },
   { label: "Purchase Orders", path: "/app/purchase-orders", icon: <ShoppingCart className="h-4 w-4" /> },
   { label: "Requests", path: "/app/requests", icon: <ClipboardList className="h-4 w-4" /> },
