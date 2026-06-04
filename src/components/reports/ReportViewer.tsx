@@ -24,15 +24,24 @@ interface Props {
   categoriesById: Map<string, string>;
 }
 
+interface DisplayRow { data: ExportRow; bold?: boolean }
+interface BuildResult {
+  rows: DisplayRow[];
+  totals?: { label: string; value: string; tone?: "ok" | "danger" }[];
+}
+
 const fmt = (n: number) => `KES ${Math.round(n).toLocaleString()}`;
+const numericKey = (h: string) => /amount|balance|total|net|cost|revenue|inflow|outflow|value|salvage|paid|expenses/i.test(h);
 
 export function ReportViewer({ reportKey, title, range, granularity, inputs, categoriesById }: Props) {
   const data = useMemo(() => build(reportKey, range, granularity, inputs, categoriesById), [reportKey, range, granularity, inputs, categoriesById]);
 
   function handleExport(kind: "csv" | "excel" | "pdf") {
     if (data.rows.length === 0) return;
-    exportAll(`stackwise-${reportKey}`, `Stackwise · ${title}`, data.rows, kind);
+    exportAll(`stackwise-${reportKey}`, `Stackwise · ${title}`, data.rows.map((r) => r.data), kind);
   }
+
+  const headers = data.rows.length ? Object.keys(data.rows[0].data) : [];
 
   return (
     <div className="space-y-3">
@@ -69,15 +78,15 @@ export function ReportViewer({ reportKey, title, range, granularity, inputs, cat
           <Table>
             <TableHeader>
               <TableRow className="bg-white">
-                {Object.keys(data.rows[0]).map((h) => <TableHead key={h} className={cn(/amount|balance|total|net|cost|revenue|inflow|outflow|value|salvage|paid|expenses/i.test(h) && "text-right")}>{h}</TableHead>)}
+                {headers.map((h) => <TableHead key={h} className={cn(numericKey(h) && "text-right")}>{h}</TableHead>)}
               </TableRow>
             </TableHeader>
             <TableBody>
               {data.rows.map((r, idx) => (
-                <TableRow key={idx} className={cn(typeof r.__bold !== "undefined" && r.__bold && "bg-muted/30 font-semibold")}>
-                  {Object.keys(r).filter((k) => !k.startsWith("__")).map((h) => (
-                    <TableCell key={h} className={cn("text-sm", /amount|balance|total|net|cost|revenue|inflow|outflow|value|salvage|paid|expenses/i.test(h) && "text-right font-mono tabular-nums")}>
-                      {r[h]}
+                <TableRow key={idx} className={cn(r.bold && "bg-muted/30 font-semibold")}>
+                  {headers.map((h) => (
+                    <TableCell key={h} className={cn("text-sm", numericKey(h) && "text-right font-mono tabular-nums")}>
+                      {r.data[h]}
                     </TableCell>
                   ))}
                 </TableRow>
@@ -90,32 +99,26 @@ export function ReportViewer({ reportKey, title, range, granularity, inputs, cat
   );
 }
 
-interface BuildResult {
-  rows: Array<Record<string, string | number> & { __bold?: boolean }>;
-  totals?: { label: string; value: string; tone?: "ok" | "danger" }[];
-}
-
 function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInputs, cats: Map<string, string>): BuildResult {
   if (key === "income_statement") {
     const r = buildIncomeStatement(i, range);
     return {
-      rows: r.rows.map((row) => ({ Line: row.label, Amount: fmt(row.amount), __bold: row.bold })),
-
+      rows: r.rows.map((row) => ({ data: { Line: row.label, Amount: fmt(row.amount) }, bold: row.bold })),
       totals: [{ label: "Net income", value: fmt(r.netIncome), tone: r.netIncome >= 0 ? "ok" : "danger" }],
     };
   }
 
   if (key === "balance_sheet") {
     const b = buildBalanceSheet(i, range.to);
-    const rows: (ExportRow & { __bold?: boolean })[] = [];
-    rows.push({ Section: "ASSETS", Line: "", Amount: "", __bold: true });
-    for (const a of b.assets) rows.push({ Section: "", Line: (a.sub ? "  • " : "") + a.label, Amount: fmt(a.amount), __bold: !a.sub });
-    rows.push({ Section: "Total assets", Line: "", Amount: fmt(b.totalAssets), __bold: true });
-    rows.push({ Section: "LIABILITIES", Line: "", Amount: "", __bold: true });
-    for (const a of b.liabilities) rows.push({ Section: "", Line: (a.sub ? "  • " : "") + a.label, Amount: fmt(a.amount), __bold: !a.sub });
-    rows.push({ Section: "EQUITY", Line: "", Amount: "", __bold: true });
-    for (const a of b.equity) rows.push({ Section: "", Line: a.label, Amount: fmt(a.amount) });
-    rows.push({ Section: "Total liabilities + equity", Line: "", Amount: fmt(b.totalLiabEquity), __bold: true });
+    const rows: DisplayRow[] = [];
+    rows.push({ data: { Section: "ASSETS", Line: "", Amount: "" }, bold: true });
+    for (const a of b.assets) rows.push({ data: { Section: "", Line: (a.sub ? "  • " : "") + a.label, Amount: fmt(a.amount) }, bold: !a.sub });
+    rows.push({ data: { Section: "Total assets", Line: "", Amount: fmt(b.totalAssets) }, bold: true });
+    rows.push({ data: { Section: "LIABILITIES", Line: "", Amount: "" }, bold: true });
+    for (const a of b.liabilities) rows.push({ data: { Section: "", Line: (a.sub ? "  • " : "") + a.label, Amount: fmt(a.amount) }, bold: !a.sub });
+    rows.push({ data: { Section: "EQUITY", Line: "", Amount: "" }, bold: true });
+    for (const a of b.equity) rows.push({ data: { Section: "", Line: a.label, Amount: fmt(a.amount) } });
+    rows.push({ data: { Section: "Total liabilities + equity", Line: "", Amount: fmt(b.totalLiabEquity) }, bold: true });
     return {
       rows,
       totals: [
@@ -131,7 +134,7 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
     const totIn = arr.reduce((s, r) => s + r.Inflow, 0);
     const totOut = arr.reduce((s, r) => s + r.Outflow, 0);
     return {
-      rows: arr.map((r) => ({ Period: r.Period, Inflow: fmt(r.Inflow), Outflow: fmt(r.Outflow), Net: fmt(r.Net) })),
+      rows: arr.map((r) => ({ data: { Period: r.Period, Inflow: fmt(r.Inflow), Outflow: fmt(r.Outflow), Net: fmt(r.Net) } })),
       totals: [
         { label: "Total inflow", value: fmt(totIn), tone: "ok" },
         { label: "Total outflow", value: fmt(totOut), tone: "danger" },
@@ -145,7 +148,7 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
     const totR = arr.reduce((s, r) => s + r.Revenue, 0);
     const totE = arr.reduce((s, r) => s + r.Expenses, 0);
     return {
-      rows: arr.map((r) => ({ Period: r.Period, Revenue: fmt(r.Revenue), Expenses: fmt(r.Expenses), "Net result": fmt(r["Net result"]) })),
+      rows: arr.map((r) => ({ data: { Period: r.Period, Revenue: fmt(r.Revenue), Expenses: fmt(r.Expenses), "Net result": fmt(r["Net result"]) } })),
       totals: [
         { label: "Revenue", value: fmt(totR), tone: "ok" },
         { label: "Expenses", value: fmt(totE), tone: "danger" },
@@ -157,7 +160,7 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
   if (key === "expense_by_category") {
     const arr = buildExpenseByCategory(i, range);
     return {
-      rows: arr.map(([id, v]) => ({ Category: cats.get(id) ?? id, Amount: fmt(v) })),
+      rows: arr.map(([id, v]) => ({ data: { Category: cats.get(id) ?? id, Amount: fmt(v) } })),
     };
   }
 
@@ -166,7 +169,7 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
     const b = buildAgingSummary(entries);
     const total = Object.values(b).reduce((s, v) => s + v, 0);
     return {
-      rows: Object.entries(b).map(([bucket, amount]) => ({ Bucket: bucket, Amount: fmt(amount), "% of total": total ? `${((amount / total) * 100).toFixed(1)}%` : "—" })),
+      rows: Object.entries(b).map(([bucket, amount]) => ({ data: { Bucket: bucket, Amount: fmt(amount), "% of total": total ? `${((amount / total) * 100).toFixed(1)}%` : "—" } })),
       totals: [{ label: "Total outstanding", value: fmt(total), tone: "danger" }],
     };
   }
@@ -174,16 +177,18 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
   if (key === "asset_register") {
     const arr = buildAssetRegister(i.assets);
     return {
-      rows: arr.map((r) => ({ ...r, "Purchase cost": fmt(r["Purchase cost"]), "Book value": fmt(r["Book value"]) } as ExportRow)),
+      rows: arr.map((r) => ({ data: { ...r, "Purchase cost": fmt(Number(r["Purchase cost"])), "Book value": fmt(Number(r["Book value"])) } as ExportRow })),
     };
   }
 
   if (key === "bank_summary") {
     return {
       rows: i.bank.accounts.map((a) => ({
-        Account: a.accountName, Bank: a.bankName, Currency: a.currency,
-        "Opening balance": fmt(a.openingBalance), "Current balance": fmt(a.currentBalance),
-        Status: a.status,
+        data: {
+          Account: a.accountName, Bank: a.bankName, Currency: a.currency,
+          "Opening balance": fmt(a.openingBalance), "Current balance": fmt(a.currentBalance),
+          Status: a.status,
+        },
       })),
     };
   }
@@ -194,8 +199,10 @@ function build(key: ReportKey, range: DateRange, g: Granularity, i: FinanceInput
     rows: list
       .filter((e) => e.amount - e.paid > 0)
       .map((e) => ({
-        Reference: e.reference, Party: e.partyName, Issued: e.issueDate, Due: e.dueDate,
-        Amount: fmt(e.amount), Paid: fmt(e.paid), Balance: fmt(e.amount - e.paid), Status: e.status,
+        data: {
+          Reference: e.reference, Party: e.partyName, Issued: e.issueDate, Due: e.dueDate,
+          Amount: fmt(e.amount), Paid: fmt(e.paid), Balance: fmt(e.amount - e.paid), Status: e.status,
+        },
       })),
   };
 }
