@@ -20,7 +20,10 @@ import {
   ArrowUpFromLine,
   UserSquare2,
   MessageSquare,
+  Boxes,
+  FileBarChart2,
 } from "lucide-react";
+
 import { Link, useLocation } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
 import { useRole } from "@/hooks/useRole";
@@ -65,8 +68,16 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Employees", href: "/app/employees", icon: UserSquare2, permKey: "canManageItems" },
       { label: "Chatroom", href: "/app/chat", icon: MessageSquare },
+      { label: "Assets", href: "/app/assets", icon: Boxes, permKey: "canManageItems" },
     ],
   },
+  {
+    label: "Reports",
+    items: [
+      { label: "Reports", href: "/app/reports", icon: FileBarChart2, permKey: "canViewAnalytics" },
+    ],
+  },
+
   {
     label: "Procurement",
     permKey: "canManagePOs",
