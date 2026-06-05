@@ -25,7 +25,9 @@ const STATUS_OPTIONS = [
   { value: "in-stock", label: "In Stock" },
   { value: "low-stock", label: "Low Stock" },
   { value: "out-of-stock", label: "Out of Stock" },
+  { value: "most-selling", label: "Most selling" },
 ];
+
 
 export function CatalogFilters({ filters, onChange, categories, suppliers, locations }: CatalogFiltersProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
