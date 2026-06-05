@@ -52,12 +52,20 @@ export const Route = createFileRoute("/app/orders")({
 
 type OrderStatus = "draft" | "confirmed" | "in_progress" | "delivered" | "cancelled";
 
+interface QuotationAttachment {
+  name: string;
+  type: string;
+  dataUrl: string;
+  size: number;
+}
+
 interface SalesOrder {
   id: string;
   lpoNumber: string;
   dateReceived: string;
   customerName: string;
   customerQuotation: string;
+  quotationAttachment?: QuotationAttachment | null;
   dateToBeDelivered: string;
   handledBy: string;
   status: OrderStatus;
@@ -65,6 +73,7 @@ interface SalesOrder {
   notes?: string;
   createdAt: string;
 }
+
 
 const STORAGE_KEY = "stackwise.orders.v1";
 
