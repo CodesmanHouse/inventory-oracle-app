@@ -184,8 +184,26 @@ function CashFlowSheet({
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
   const [provider, setProvider] = useState<MobileProvider>("M-Pesa");
+  const [attachment, setAttachment] = useState<ReceiptAttachment | null>(null);
+  const fileRef = useRef<HTMLInputElement | null>(null);
 
   const valid = accountId && reference && party && parseFloat(amount) > 0;
+
+  function handleFile(file: File | undefined) {
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Receipt too large (max 5 MB)");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => setAttachment({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      dataUrl: String(reader.result ?? ""),
+    });
+    reader.readAsDataURL(file);
+  }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -254,6 +272,34 @@ function CashFlowSheet({
           <Field label="Reference"><Input className="font-mono" value={reference} onChange={(e) => setReference(e.target.value)} placeholder="RCP / CHQ / EFT / Mpesa code" /></Field>
           <Field label={isDeposit ? "From (payer)" : "To (payee)"}><Input value={party} onChange={(e) => setParty(e.target.value)} placeholder="Customer or supplier name" /></Field>
           <Field label="Description"><Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} placeholder="Optional notes" /></Field>
+
+          <Field label="Receipt (image or PDF)">
+            <input
+              ref={fileRef}
+              type="file"
+              accept="image/*,application/pdf"
+              className="hidden"
+              onChange={(e) => handleFile(e.target.files?.[0])}
+            />
+            <div className="flex flex-wrap items-center gap-2">
+              <Button type="button" size="sm" variant="outline" onClick={() => fileRef.current?.click()} className="gap-1.5">
+                <Upload className="h-3.5 w-3.5" />
+                {attachment ? "Replace receipt" : "Upload receipt"}
+              </Button>
+              {attachment && (
+                <div className="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/40 px-2 py-1 text-xs">
+                  <Paperclip className="h-3 w-3" />
+                  <span className="max-w-[140px] truncate">{attachment.name}</span>
+                  <a href={attachment.dataUrl} target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                    <Eye className="h-3 w-3" />
+                  </a>
+                  <button type="button" onClick={() => setAttachment(null)} className="text-muted-foreground hover:text-destructive">
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </Field>
         </div>
 
         <SheetFooter className="mt-6">
@@ -272,7 +318,9 @@ function CashFlowSheet({
                 amount: isDeposit ? amt : -amt,
                 party: party.trim(),
                 mobileProvider: subtype === "mobile_money" ? provider : undefined,
+                attachment,
               });
+              setAttachment(null);
             }}
           >
             Record
@@ -282,6 +330,7 @@ function CashFlowSheet({
     </Sheet>
   );
 }
+
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
