@@ -90,6 +90,7 @@ export function CashFlowPanel({ direction, accounts, txns, onAdd }: Props) {
               <TableHead>{isDeposit ? "From" : "To"}</TableHead>
               <TableHead>Description</TableHead>
               <TableHead>Account</TableHead>
+              <TableHead>Receipt</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
@@ -110,6 +111,22 @@ export function CashFlowPanel({ direction, accounts, txns, onAdd }: Props) {
                   <TableCell className="text-sm">{t.party}</TableCell>
                   <TableCell className="max-w-[260px] truncate text-sm text-muted-foreground">{t.description}</TableCell>
                   <TableCell className="text-xs text-muted-foreground">{acc?.accountName ?? "—"}</TableCell>
+                  <TableCell>
+                    {t.attachment ? (
+                      <a
+                        href={t.attachment.dataUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-1 rounded-md border border-border bg-muted/40 px-1.5 py-0.5 text-[11px] text-primary hover:bg-muted"
+                        title={t.attachment.name}
+                      >
+                        <Paperclip className="h-3 w-3" />
+                        view
+                      </a>
+                    ) : (
+                      <span className="text-[11px] text-muted-foreground">—</span>
+                    )}
+                  </TableCell>
                   <TableCell className={cn("text-right font-mono text-sm font-semibold", isDeposit ? "text-emerald-600" : "text-destructive")}>
                     {fmt(t.amount, acc?.currency)}
                   </TableCell>
@@ -117,9 +134,10 @@ export function CashFlowPanel({ direction, accounts, txns, onAdd }: Props) {
               );
             })}
             {filtered.length === 0 && (
-              <TableRow><TableCell colSpan={7} className="py-12 text-center text-sm text-muted-foreground">No {isDeposit ? "deposits" : "withdrawals"} yet.</TableCell></TableRow>
+              <TableRow><TableCell colSpan={8} className="py-12 text-center text-sm text-muted-foreground">No {isDeposit ? "deposits" : "withdrawals"} yet.</TableCell></TableRow>
             )}
           </TableBody>
+
         </Table>
       </div>
 
