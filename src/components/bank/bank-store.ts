@@ -23,6 +23,13 @@ export interface BankAccount {
   createdAt: string;
 }
 
+export interface ReceiptAttachment {
+  name: string;
+  type: string;
+  size: number;
+  dataUrl: string;
+}
+
 export interface BankTxn {
   id: string;
   accountId: string;
@@ -35,8 +42,10 @@ export interface BankTxn {
   party: string; // payer or payee
   mobileProvider?: MobileProvider;
   reconciled: boolean;
+  attachment?: ReceiptAttachment | null;
   createdAt: string;
 }
+
 
 export interface StatementLine {
   id: string;

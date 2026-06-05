@@ -121,8 +121,20 @@ function CatalogPage() {
     if (filters.status === "in-stock") result = result.filter((i) => i.currentStock > i.reorderPoint);
     else if (filters.status === "low-stock") result = result.filter((i) => i.currentStock > 0 && i.currentStock <= i.reorderPoint);
     else if (filters.status === "out-of-stock") result = result.filter((i) => i.currentStock === 0);
+    else if (filters.status === "most-selling") {
+      const sold = new Map<string, number>();
+      for (const m of movements) {
+        if (m.sale || m.type === "shipped") {
+          sold.set(m.itemId, (sold.get(m.itemId) ?? 0) + Math.abs(m.quantity));
+        }
+      }
+      result = [...result]
+        .filter((i) => (sold.get(i.id) ?? 0) > 0)
+        .sort((a, b) => (sold.get(b.id) ?? 0) - (sold.get(a.id) ?? 0));
+    }
     return result;
-  }, [allItems, filters.status]);
+  }, [allItems, filters.status, movements]);
+
 
   const existingSkus = useMemo(() => allItems.map((i) => i.sku), [allItems]);
 

@@ -116,6 +116,7 @@ export interface SaleDetails {
   totalAmount: number;
   discount: number;
   vat: number;
+  vatRate?: number;
   cumulativeAmount: number;
   deposit: number;
   balance: number;
@@ -127,7 +128,10 @@ export interface SaleDetails {
   telephone: string;
   email: string;
   status: TransactionStatus;
+  assetId?: string | null;
+  assetName?: string | null;
 }
+
 
 export interface StockMovement {
   id: string;

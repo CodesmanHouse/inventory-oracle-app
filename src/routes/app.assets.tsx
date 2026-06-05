@@ -26,9 +26,7 @@ function AssetsPage() {
   const [editing, setEditing] = useState<Asset | null>(null);
   const [detail, setDetail] = useState<Asset | null>(null);
 
-  if (!store.ready) return <div className="mx-auto h-32 max-w-[1400px] animate-pulse rounded-xl bg-muted/50" />;
-
-  const cats = Array.from(new Set(store.assets.map((a) => a.category)));
+  const cats = useMemo(() => Array.from(new Set(store.assets.map((a) => a.category))), [store.assets]);
 
   const filtered = useMemo(() => store.assets.filter((a) => {
     if (cat !== "all" && a.category !== cat) return false;
@@ -39,6 +37,9 @@ function AssetsPage() {
     }
     return true;
   }), [store.assets, q, cat, status]);
+
+  if (!store.ready) return <div className="mx-auto h-32 max-w-[1400px] animate-pulse rounded-xl bg-muted/50" />;
+
 
   // KPI rollups
   const totalValue = store.assets.reduce((s, a) => s + a.purchaseCost, 0);
