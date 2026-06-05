@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Receipt, User, CreditCard, Package } from "lucide-react";
+import { Receipt, User, CreditCard, Package, Boxes } from "lucide-react";
 import { MovementType } from "@/types/inventory";
 import type {
   Item,
@@ -28,6 +29,8 @@ import type {
 } from "@/types/inventory";
 import { useCreateMovement } from "@/hooks/useInventoryMutations";
 import { useMovements } from "@/hooks/useInventoryData";
+import { useEmployees } from "@/components/employees/employees-store";
+import { useAssetsStore } from "@/components/assets/assets-store";
 
 interface Props {
   open: boolean;
@@ -35,7 +38,8 @@ interface Props {
   items: Item[];
 }
 
-const VAT_RATE = 0.16;
+const VAT_RATE = 0.18;
+const WALK_IN = "Walk-in";
 
 const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
   { value: "cash", label: "Cash" },
@@ -51,37 +55,45 @@ const fmt = (n: number) =>
 export function AddSaleSheet({ open, onOpenChange, items }: Props) {
   const { mutate, isLoading } = useCreateMovement();
   const { data: movements } = useMovements();
+  const { employees } = useEmployees();
+  const assetsStore = useAssetsStore();
 
   const [itemId, setItemId] = useState("");
+  const [assetId, setAssetId] = useState<string>("__none__");
   const [quantity, setQuantity] = useState("1");
   const [unitPrice, setUnitPrice] = useState("0");
   const [discount, setDiscount] = useState("0");
+  const [vatEnabled, setVatEnabled] = useState(false);
   const [deposit, setDeposit] = useState("0");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash");
   const [amountTendered, setAmountTendered] = useState("0");
-  const [staff, setStaff] = useState("Demo User");
+  const [staff, setStaff] = useState<string>("");
   const [customer, setCustomer] = useState("");
   const [telephone, setTelephone] = useState("");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const selected = items.find((i) => i.id === itemId);
+  const activeStaff = employees.filter((e) => e.status === "active");
 
   useEffect(() => {
     if (open) {
       setItemId("");
+      setAssetId("__none__");
       setQuantity("1");
       setUnitPrice("0");
       setDiscount("0");
+      setVatEnabled(false);
       setDeposit("0");
       setPaymentMethod("cash");
       setAmountTendered("0");
-      setStaff("Demo User");
+      setStaff(activeStaff[0]?.name ?? "");
       setCustomer("");
       setTelephone("");
       setEmail("");
       setErrors({});
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   useEffect(() => {
@@ -96,7 +108,7 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
 
   const subTotal = qty * price;
   const afterDiscount = Math.max(0, subTotal - disc);
-  const vat = afterDiscount * VAT_RATE;
+  const vat = vatEnabled ? afterDiscount * VAT_RATE : 0;
   const totalAmount = afterDiscount + vat;
 
   const cumulativeAmount = useMemo(() => {
@@ -115,6 +127,7 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
 
   const receiptNumber = useMemo(
     () => `RCP-${Date.now().toString().slice(-7)}`,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [open],
   );
 
@@ -125,7 +138,7 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
     if (selected && qty > selected.currentStock)
       e.quantity = `Only ${selected.currentStock} in stock`;
     if (price <= 0) e.unitPrice = "Unit price required";
-    if (!customer.trim()) e.customer = "Customer name required";
+    if (!staff.trim()) e.staff = "Staff is required";
     if (email && !/^\S+@\S+\.\S+$/.test(email)) e.email = "Invalid email";
     setErrors(e);
     return Object.keys(e).length === 0;
@@ -133,6 +146,9 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
 
   const handleSave = () => {
     if (!validate()) return;
+
+    const customerName = customer.trim() || WALK_IN;
+    const linkedAsset = assetId !== "__none__" ? assetsStore.assets.find((a) => a.id === assetId) : null;
 
     const movement: StockMovement = {
       id: crypto.randomUUID(),
@@ -142,7 +158,7 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
       fromLocationId: null,
       toLocationId: null,
       reference: receiptNumber,
-      notes: `Sale to ${customer}`,
+      notes: `Sale to ${customerName}`,
       performedBy: staff,
       createdAt: new Date().toISOString(),
       sale: {
@@ -151,6 +167,7 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
         totalAmount,
         discount: disc,
         vat,
+        vatRate: vatEnabled ? VAT_RATE : 0,
         cumulativeAmount,
         deposit: dep,
         balance,
@@ -158,10 +175,12 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
         amountTendered: tendered,
         changeDue,
         staff,
-        customer,
+        customer: customerName,
         telephone,
         email,
         status,
+        assetId: linkedAsset?.id ?? null,
+        assetName: linkedAsset?.name ?? null,
       },
     };
 
@@ -209,6 +228,26 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
               </Select>
               {errors.itemId && <p className="mt-1 text-xs text-destructive">{errors.itemId}</p>}
             </div>
+
+            <div>
+              <Label className="mb-1.5 flex items-center gap-1.5 text-sm">
+                <Boxes className="h-3.5 w-3.5 text-muted-foreground" /> Asset (optional)
+              </Label>
+              <Select value={assetId} onValueChange={setAssetId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Link to asset" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="__none__">— None —</SelectItem>
+                  {assetsStore.assets.map((a) => (
+                    <SelectItem key={a.id} value={a.id}>
+                      {a.tag} · {a.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="mb-1.5 block text-sm">Unit price *</Label>
@@ -227,7 +266,10 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
                 <Input type="number" min={0} step="0.01" value={discount} onChange={(e) => setDiscount(e.target.value)} />
               </div>
               <div>
-                <Label className="mb-1.5 block text-sm">VAT (16%)</Label>
+                <Label className="mb-1.5 flex items-center gap-2 text-sm">
+                  <Checkbox checked={vatEnabled} onCheckedChange={(c) => setVatEnabled(Boolean(c))} id="vat-toggle" />
+                  <label htmlFor="vat-toggle" className="cursor-pointer">VAT 18% (optional)</label>
+                </Label>
                 <Input value={fmt(vat)} disabled className="font-mono" />
               </div>
             </div>
@@ -243,6 +285,12 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
               <span className="text-muted-foreground">After discount</span>
               <span className="font-mono">{fmt(afterDiscount)}</span>
             </div>
+            {vatEnabled && (
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">VAT (18%)</span>
+                <span className="font-mono">{fmt(vat)}</span>
+              </div>
+            )}
             <Separator className="my-2" />
             <div className="flex justify-between text-base">
               <span className="font-semibold">Total amount</span>
@@ -300,18 +348,26 @@ export function AddSaleSheet({ open, onOpenChange, items }: Props) {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="mb-1.5 block text-sm">Staff *</Label>
-                <Input value={staff} onChange={(e) => setStaff(e.target.value)} />
+                <Select value={staff} onValueChange={setStaff}>
+                  <SelectTrigger><SelectValue placeholder="Select staff" /></SelectTrigger>
+                  <SelectContent>
+                    {activeStaff.map((e) => (
+                      <SelectItem key={e.id} value={e.name}>{e.name} · {e.role}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errors.staff && <p className="mt-1 text-xs text-destructive">{errors.staff}</p>}
               </div>
               <div>
-                <Label className="mb-1.5 block text-sm">Customer *</Label>
-                <Input value={customer} onChange={(e) => setCustomer(e.target.value)} placeholder="Walk-in or name" />
-                {errors.customer && <p className="mt-1 text-xs text-destructive">{errors.customer}</p>}
+                <Label className="mb-1.5 block text-sm">Customer</Label>
+                <Input value={customer} onChange={(e) => setCustomer(e.target.value)} placeholder={WALK_IN} />
+                <p className="mt-1 text-[10px] text-muted-foreground">Leave blank for walk-in</p>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="mb-1.5 block text-sm">Telephone</Label>
-                <Input type="tel" value={telephone} onChange={(e) => setTelephone(e.target.value)} placeholder="+1 555 0100" />
+                <Input type="tel" value={telephone} onChange={(e) => setTelephone(e.target.value)} placeholder="+254 700 000 000" />
               </div>
               <div>
                 <Label className="mb-1.5 block text-sm">Email</Label>
