@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { Plus, Banknote, FileText, Smartphone, Search } from "lucide-react";
+import { useState, useMemo, useRef } from "react";
+import { Plus, Banknote, FileText, Smartphone, Search, Paperclip, Upload, Eye, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,8 +12,9 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import type { BankAccount, BankTxn, DepositType, WithdrawalType, MobileProvider } from "./bank-store";
+import type { BankAccount, BankTxn, DepositType, WithdrawalType, MobileProvider, ReceiptAttachment } from "./bank-store";
 import { fmt } from "./bank-store";
+
 
 type Direction = "deposit" | "withdrawal";
 
