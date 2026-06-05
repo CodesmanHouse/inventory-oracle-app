@@ -308,7 +308,22 @@ function OrdersPage() {
                       </span>
                     </TableCell>
                     <TableCell className="font-medium">{o.customerName}</TableCell>
-                    <TableCell className="font-mono text-xs text-muted-foreground">{o.customerQuotation}</TableCell>
+                    <TableCell className="max-w-[280px]">
+                      <div className="space-y-1">
+                        <p className="line-clamp-2 text-xs text-muted-foreground">{o.customerQuotation}</p>
+                        {o.quotationAttachment && (
+                          <a
+                            href={o.quotationAttachment.dataUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1 rounded-md border border-border bg-muted/40 px-2 py-0.5 text-[11px] font-medium text-primary hover:bg-muted"
+                          >
+                            <Paperclip className="h-3 w-3" />
+                            {o.quotationAttachment.name}
+                          </a>
+                        )}
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <span
                         className={cn(
