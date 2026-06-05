@@ -434,10 +434,12 @@ function OrderFormSheet({
   const [dateReceived, setDateReceived] = useState(todayISO());
   const [customerName, setCustomerName] = useState("");
   const [customerQuotation, setCustomerQuotation] = useState("");
+  const [quotationAttachment, setQuotationAttachment] = useState<QuotationAttachment | null>(null);
   const [dateToBeDelivered, setDelivery] = useState("");
   const [handledBy, setHandledBy] = useState("");
   const [amount, setAmount] = useState("");
   const [notes, setNotes] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (open) {
@@ -445,6 +447,7 @@ function OrderFormSheet({
       setDateReceived(todayISO());
       setCustomerName("");
       setCustomerQuotation("");
+      setQuotationAttachment(null);
       setDelivery("");
       setHandledBy("");
       setAmount("");
@@ -455,6 +458,24 @@ function OrderFormSheet({
   const valid =
     lpoNumber.trim() && dateReceived && customerName.trim() && dateToBeDelivered && handledBy.trim();
 
+  function handleAttachment(file: File | undefined) {
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("File too large (max 5 MB)");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      setQuotationAttachment({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        dataUrl: String(reader.result ?? ""),
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
   function submit() {
     if (!valid) return;
     onCreate({
@@ -463,6 +484,7 @@ function OrderFormSheet({
       dateReceived,
       customerName: customerName.trim(),
       customerQuotation: customerQuotation.trim() || "—",
+      quotationAttachment,
       dateToBeDelivered,
       handledBy: handledBy.trim(),
       status: "confirmed",
@@ -498,21 +520,44 @@ function OrderFormSheet({
             />
           </Field>
 
-          <div className="grid grid-cols-2 gap-3">
-            <Field label="Customer quotation" icon={FileText}>
-              <Input
-                value={customerQuotation}
-                onChange={(e) => setCustomerQuotation(e.target.value)}
-                placeholder="QT-0000"
-                className="font-mono"
+          <Field label="Customer quotation details" icon={FileText}>
+            <Textarea
+              value={customerQuotation}
+              onChange={(e) => setCustomerQuotation(e.target.value)}
+              placeholder={"QT-0000 · Scope, line items, validity, payment terms…"}
+              rows={4}
+            />
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*,application/pdf"
+                className="hidden"
+                onChange={(e) => handleAttachment(e.target.files?.[0])}
               />
-            </Field>
+              <Button type="button" size="sm" variant="outline" onClick={() => fileInputRef.current?.click()} className="gap-1.5">
+                <Upload className="h-3.5 w-3.5" />
+                {quotationAttachment ? "Replace file" : "Attach quotation (PDF or image)"}
+              </Button>
+              {quotationAttachment && (
+                <div className="inline-flex items-center gap-1.5 rounded-md border border-border bg-muted/40 px-2 py-1 text-xs">
+                  <Paperclip className="h-3 w-3" />
+                  <span className="max-w-[160px] truncate">{quotationAttachment.name}</span>
+                  <a href={quotationAttachment.dataUrl} target="_blank" rel="noreferrer" className="text-primary hover:underline">
+                    <Eye className="h-3 w-3" />
+                  </a>
+                  <button type="button" onClick={() => setQuotationAttachment(null)} className="text-muted-foreground hover:text-destructive">
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </Field>
+
+          <div className="grid grid-cols-2 gap-3">
             <Field label="Delivery date" icon={Truck}>
               <Input type="date" value={dateToBeDelivered} onChange={(e) => setDelivery(e.target.value)} />
             </Field>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
             <Field label="Handled by" icon={User}>
               <Input
                 value={handledBy}
@@ -520,17 +565,18 @@ function OrderFormSheet({
                 placeholder="Staff name"
               />
             </Field>
-            <Field label="Amount (KES)" icon={FileText}>
-              <Input
-                type="number"
-                inputMode="decimal"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                placeholder="0.00"
-                className="font-mono"
-              />
-            </Field>
           </div>
+
+          <Field label="Amount (KES)" icon={FileText}>
+            <Input
+              type="number"
+              inputMode="decimal"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              placeholder="0.00"
+              className="font-mono"
+            />
+          </Field>
 
           <div>
             <Label className="text-xs font-medium text-muted-foreground">Notes</Label>
@@ -543,6 +589,7 @@ function OrderFormSheet({
             />
           </div>
         </div>
+
 
         <SheetFooter className="mt-6">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
