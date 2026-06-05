@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Plus,
@@ -12,7 +12,12 @@ import {
   Clock,
   AlertCircle,
   Trash2,
+  Paperclip,
+  Upload,
+  Eye,
+  X,
 } from "lucide-react";
+
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
