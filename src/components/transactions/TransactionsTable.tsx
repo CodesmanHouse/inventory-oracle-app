@@ -52,7 +52,7 @@ const METHOD_LABEL: Record<string, string> = {
 };
 
 const fmtMoney = (n: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n || 0);
+  new Intl.NumberFormat("en-UG", { style: "currency", currency: "UGX" }).format(n || 0);
 
 type RangeFilter = "any" | "zero" | "positive";
 

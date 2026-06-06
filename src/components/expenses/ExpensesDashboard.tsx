@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, BarChart, Bar, PieChart, Pie, Cell, Legend } from "recharts";
 import type { Expense, ExpenseCategory } from "./expenses-store";
 
-const fmt = (n: number) => `KES ${n.toLocaleString()}`;
+const fmt = (n: number) => `UGX ${n.toLocaleString()}`;
 
 interface Props {
   expenses: Expense[];

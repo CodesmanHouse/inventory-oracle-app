@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, AlertTriangle, Sparkles, Zap, Target } from "lucide-react";
 import type { Expense, ExpenseCategory } from "./expenses-store";
 
-const fmt = (n: number) => `KES ${Math.round(n).toLocaleString()}`;
+const fmt = (n: number) => `UGX ${Math.round(n).toLocaleString()}`;
 
 interface Props { expenses: Expense[]; categories: ExpenseCategory[] }
 

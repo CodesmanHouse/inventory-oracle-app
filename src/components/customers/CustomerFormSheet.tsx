@@ -175,7 +175,7 @@ export function CustomerFormSheet({ open, onOpenChange, existing, editing, onSav
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Credit limit (KES)">
+            <Field label="Credit limit (UGX)">
               <Input
                 type="number"
                 value={c.creditLimit}

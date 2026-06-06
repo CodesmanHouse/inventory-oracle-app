@@ -237,4 +237,4 @@ export function serviceHealth(a: Asset): ServiceHealth {
 }
 
 export const fmtKES = (n: number) =>
-  `KES ${Math.round(n).toLocaleString()}`;
+  `UGX ${Math.round(n).toLocaleString()}`;

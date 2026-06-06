@@ -64,8 +64,8 @@ export function AssetFormSheet({ open, onOpenChange, initial, onSubmit, onUpdate
           <div className="grid grid-cols-2 gap-3">
             <Field label="Purchase date"><Input type="date" value={f.purchaseDate} onChange={(e) => setF({ ...f, purchaseDate: e.target.value })} /></Field>
             <Field label="Useful life (years)"><Input type="number" value={f.usefulLifeYears} onChange={(e) => setF({ ...f, usefulLifeYears: Number(e.target.value) })} /></Field>
-            <Field label="Purchase cost (KES)"><Input type="number" value={f.purchaseCost} onChange={(e) => setF({ ...f, purchaseCost: Number(e.target.value) })} /></Field>
-            <Field label="Salvage value (KES)"><Input type="number" value={f.salvageValue} onChange={(e) => setF({ ...f, salvageValue: Number(e.target.value) })} /></Field>
+            <Field label="Purchase cost (UGX)"><Input type="number" value={f.purchaseCost} onChange={(e) => setF({ ...f, purchaseCost: Number(e.target.value) })} /></Field>
+            <Field label="Salvage value (UGX)"><Input type="number" value={f.salvageValue} onChange={(e) => setF({ ...f, salvageValue: Number(e.target.value) })} /></Field>
             <Field label="Status">
               <Select value={f.status} onValueChange={(v) => setF({ ...f, status: v as AssetStatus })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>

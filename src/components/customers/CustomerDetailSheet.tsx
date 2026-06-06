@@ -118,9 +118,9 @@ export function CustomerDetailSheet({
           )}
 
           <div className="grid grid-cols-3 gap-2">
-            <Stat label="Lifetime value" value={`KES ${(customer.lifetimeValue / 1000).toFixed(0)}K`} />
+            <Stat label="Lifetime value" value={`UGX ${(customer.lifetimeValue / 1000).toFixed(0)}K`} />
             <Stat label="Orders" value={String(customer.totalOrders)} />
-            <Stat label="Avg order" value={`KES ${(customer.avgOrderValue / 1000).toFixed(1)}K`} />
+            <Stat label="Avg order" value={`UGX ${(customer.avgOrderValue / 1000).toFixed(1)}K`} />
           </div>
 
           {customer.creditLimit > 0 && (
@@ -130,7 +130,7 @@ export function CustomerDetailSheet({
                   <CreditCard className="h-3.5 w-3.5" /> Credit utilization
                 </span>
                 <span className="font-mono">
-                  KES {customer.outstandingBalance.toLocaleString()} / {customer.creditLimit.toLocaleString()}
+                  UGX {customer.outstandingBalance.toLocaleString()} / {customer.creditLimit.toLocaleString()}
                 </span>
               </div>
               <Progress value={creditUsed} className={cn("mt-2 h-1.5", creditUsed > 80 && "[&>div]:bg-destructive")} />

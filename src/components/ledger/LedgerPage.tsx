@@ -114,20 +114,20 @@ export function LedgerPage({ kind }: Props) {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Kpi
           label={isDebtor ? "Receivables" : "Payables"}
-          value={`KES ${kpis.outstanding.toLocaleString()}`}
+          value={`UGX ${kpis.outstanding.toLocaleString()}`}
           icon={isDebtor ? ArrowDownToLine : ArrowUpFromLine}
           accent={isDebtor ? "bg-emerald-500/10 text-emerald-600" : "bg-blue-500/10 text-blue-600"}
         />
         <Kpi
           label="Overdue"
-          value={`KES ${kpis.overdueTotal.toLocaleString()}`}
+          value={`UGX ${kpis.overdueTotal.toLocaleString()}`}
           sub={`${kpis.overdueCount} entries`}
           icon={AlertTriangle}
           accent="bg-destructive/10 text-destructive"
         />
         <Kpi
           label={isDebtor ? "Collected" : "Settled"}
-          value={`KES ${kpis.paidSum.toLocaleString()}`}
+          value={`UGX ${kpis.paidSum.toLocaleString()}`}
           icon={Banknote}
           accent="bg-amber-500/10 text-amber-600"
         />
@@ -157,7 +157,7 @@ export function LedgerPage({ kind }: Props) {
                   onClick={() => setBucketFilter(bucketFilter === b ? "all" : b)}
                   style={{ width: `${pct}%` }}
                   className={cn("h-full transition-opacity hover:opacity-80", BUCKET_CLS[b])}
-                  title={`${b} · KES ${kpis.buckets[b].toLocaleString()}`}
+                  title={`${b} · UGX ${kpis.buckets[b].toLocaleString()}`}
                 />
               );
             })}
@@ -177,7 +177,7 @@ export function LedgerPage({ kind }: Props) {
                   <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{b}</span>
                 </div>
                 <div className="mt-1 font-mono text-xs">
-                  KES {(kpis.buckets[b] / 1000).toFixed(1)}K
+                  UGX {(kpis.buckets[b] / 1000).toFixed(1)}K
                 </div>
               </button>
             ))}
@@ -206,7 +206,7 @@ export function LedgerPage({ kind }: Props) {
                     <div className="font-mono text-[10px] text-muted-foreground">{e.reference}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-mono text-xs">KES {balance(e).toLocaleString()}</div>
+                    <div className="font-mono text-xs">UGX {balance(e).toLocaleString()}</div>
                     <div className="text-[10px] text-destructive">{ageDays(e)}d late</div>
                   </div>
                 </button>
@@ -389,7 +389,7 @@ export function LedgerPage({ kind }: Props) {
         onOpenChange={(v) => !v && setPaying(null)}
         onPay={(id, payment) => {
           pay(id, payment);
-          toast.success(`KES ${payment.amount.toLocaleString()} recorded`);
+          toast.success(`UGX ${payment.amount.toLocaleString()} recorded`);
         }}
       />
     </div>

@@ -84,7 +84,7 @@ export function CustomerKanban({
 
                   <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground">
                     <span className="font-mono">{c.totalOrders} orders</span>
-                    <span className="font-mono">KES {(c.lifetimeValue / 1000).toFixed(0)}K</span>
+                    <span className="font-mono">UGX {(c.lifetimeValue / 1000).toFixed(0)}K</span>
                   </div>
 
                   {c.tags.length > 0 && (

@@ -31,8 +31,6 @@ import { Route as AppChatRouteImport } from './routes/app.chat'
 import { Route as AppCatalogRouteImport } from './routes/app.catalog'
 import { Route as AppBankRouteImport } from './routes/app.bank'
 import { Route as AppAssetsRouteImport } from './routes/app.assets'
-import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
-import { Route as AppAiInsightsRouteImport } from './routes/app.ai-insights'
 
 const AppRoute = AppRouteImport.update({
   id: '/app',
@@ -144,22 +142,10 @@ const AppAssetsRoute = AppAssetsRouteImport.update({
   path: '/assets',
   getParentRoute: () => AppRoute,
 } as any)
-const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
-  id: '/analytics',
-  path: '/analytics',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppAiInsightsRoute = AppAiInsightsRouteImport.update({
-  id: '/ai-insights',
-  path: '/ai-insights',
-  getParentRoute: () => AppRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/app/ai-insights': typeof AppAiInsightsRoute
-  '/app/analytics': typeof AppAnalyticsRoute
   '/app/assets': typeof AppAssetsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
@@ -183,8 +169,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/app/ai-insights': typeof AppAiInsightsRoute
-  '/app/analytics': typeof AppAnalyticsRoute
   '/app/assets': typeof AppAssetsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
@@ -210,8 +194,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
-  '/app/ai-insights': typeof AppAiInsightsRoute
-  '/app/analytics': typeof AppAnalyticsRoute
   '/app/assets': typeof AppAssetsRoute
   '/app/bank': typeof AppBankRoute
   '/app/catalog': typeof AppCatalogRoute
@@ -238,8 +220,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/app'
-    | '/app/ai-insights'
-    | '/app/analytics'
     | '/app/assets'
     | '/app/bank'
     | '/app/catalog'
@@ -263,8 +243,6 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/app/ai-insights'
-    | '/app/analytics'
     | '/app/assets'
     | '/app/bank'
     | '/app/catalog'
@@ -289,8 +267,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/app'
-    | '/app/ai-insights'
-    | '/app/analytics'
     | '/app/assets'
     | '/app/bank'
     | '/app/catalog'
@@ -474,26 +450,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAssetsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/analytics': {
-      id: '/app/analytics'
-      path: '/analytics'
-      fullPath: '/app/analytics'
-      preLoaderRoute: typeof AppAnalyticsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/ai-insights': {
-      id: '/app/ai-insights'
-      path: '/ai-insights'
-      fullPath: '/app/ai-insights'
-      preLoaderRoute: typeof AppAiInsightsRouteImport
-      parentRoute: typeof AppRoute
-    }
   }
 }
 
 interface AppRouteChildren {
-  AppAiInsightsRoute: typeof AppAiInsightsRoute
-  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppAssetsRoute: typeof AppAssetsRoute
   AppBankRoute: typeof AppBankRoute
   AppCatalogRoute: typeof AppCatalogRoute
@@ -517,8 +477,6 @@ interface AppRouteChildren {
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAiInsightsRoute: AppAiInsightsRoute,
-  AppAnalyticsRoute: AppAnalyticsRoute,
   AppAssetsRoute: AppAssetsRoute,
   AppBankRoute: AppBankRoute,
   AppCatalogRoute: AppCatalogRoute,

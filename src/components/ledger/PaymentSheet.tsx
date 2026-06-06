@@ -67,15 +67,15 @@ export function PaymentSheet({ entry, open, onOpenChange, onPay }: Props) {
           <div className="rounded-lg border border-border bg-muted/30 p-3">
             <div className="flex justify-between text-xs text-muted-foreground">
               <span>Total</span>
-              <span className="font-mono">KES {entry.amount.toLocaleString()}</span>
+              <span className="font-mono">UGX {entry.amount.toLocaleString()}</span>
             </div>
             <div className="mt-1 flex justify-between text-xs text-muted-foreground">
               <span>Paid</span>
-              <span className="font-mono">KES {entry.paid.toLocaleString()}</span>
+              <span className="font-mono">UGX {entry.paid.toLocaleString()}</span>
             </div>
             <div className="mt-1 flex justify-between text-sm font-medium">
               <span>Balance</span>
-              <span className="font-mono text-foreground">KES {bal.toLocaleString()}</span>
+              <span className="font-mono text-foreground">UGX {bal.toLocaleString()}</span>
             </div>
           </div>
 
@@ -126,7 +126,7 @@ export function PaymentSheet({ entry, open, onOpenChange, onPay }: Props) {
                     <span className="text-muted-foreground">
                       {p.date} · {p.method}{p.reference ? ` · ${p.reference}` : ""}
                     </span>
-                    <span className="font-mono">KES {p.amount.toLocaleString()}</span>
+                    <span className="font-mono">UGX {p.amount.toLocaleString()}</span>
                   </div>
                 ))}
               </div>

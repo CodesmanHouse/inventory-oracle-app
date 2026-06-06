@@ -136,7 +136,7 @@ function Body({ asset, onAddReading, onAddService }: { asset: Asset; onAddReadin
                 </SelectContent>
               </Select>
               <Input value={s.performedBy} onChange={(e) => setS({ ...s, performedBy: e.target.value })} placeholder="Performed by" />
-              <Input type="number" value={s.cost} onChange={(e) => setS({ ...s, cost: Number(e.target.value) })} placeholder="Cost (KES)" />
+              <Input type="number" value={s.cost} onChange={(e) => setS({ ...s, cost: Number(e.target.value) })} placeholder="Cost (UGX)" />
             </div>
             <Textarea className="mt-2" rows={2} value={s.notes} onChange={(e) => setS({ ...s, notes: e.target.value })} placeholder="Notes" />
             <div className="mt-2 flex justify-end"><Button onClick={submitService}><Wrench className="mr-1.5 h-4 w-4" /> Log service</Button></div>

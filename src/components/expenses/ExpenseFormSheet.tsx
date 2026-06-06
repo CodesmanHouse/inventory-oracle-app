@@ -88,7 +88,7 @@ export function ExpenseFormSheet({ open, onOpenChange, categories, initial, onSu
             <Field label="Currency">
               <Select value={form.currency} onValueChange={(v) => update("currency", v)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>{["KES", "USD", "EUR", "GBP", "UGX", "TZS"].map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+                <SelectContent>{["UGX", "USD", "EUR", "GBP", "TZS"].map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
               </Select>
             </Field>
             <Field label="Payment method">
@@ -167,7 +167,7 @@ function mkInitial(categories: ExpenseCategory[], initial?: Expense | null) {
     categoryId: initial?.categoryId ?? categories[0]?.id ?? "",
     vendor: initial?.vendor ?? "",
     amount: initial ? String(initial.amount) : "",
-    currency: initial?.currency ?? "KES",
+    currency: initial?.currency ?? "UGX",
     paymentMethod: (initial?.paymentMethod ?? "card") as ExpensePaymentMethod,
     description: initial?.description ?? "",
     attachment: initial?.attachment ?? "",

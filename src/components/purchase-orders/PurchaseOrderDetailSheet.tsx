@@ -295,7 +295,7 @@ export function PurchaseOrderDetailSheet({
                           </div>
                         </TableCell>
                         <TableCell className="text-right font-mono text-sm font-medium">
-                          ${(li.quantityOrdered * li.unitCost).toFixed(2)}
+                          UGX {(li.quantityOrdered * li.unitCost).toFixed(2)}
                         </TableCell>
                       </TableRow>
                     );
@@ -310,7 +310,7 @@ export function PurchaseOrderDetailSheet({
             <span className="text-sm font-medium text-foreground">
               Total:{" "}
               <span className="font-mono text-base">
-                ${purchaseOrder.totalCost.toLocaleString("en-US", {
+                UGX {purchaseOrder.totalCost.toLocaleString("en-UG", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })}

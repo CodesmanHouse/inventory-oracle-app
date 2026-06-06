@@ -12,7 +12,7 @@ interface Props {
 export function BankDashboard({ accounts, txns }: Props) {
   const stats = useMemo(() => {
     const totalKES = accounts
-      .filter((a) => a.currency === "KES" && a.status === "active")
+      .filter((a) => a.currency === "UGX" && a.status === "active")
       .reduce((s, a) => s + a.currentBalance, 0);
     const inflow = txns.filter((t) => t.amount > 0).reduce((s, t) => s + t.amount, 0);
     const outflow = txns.filter((t) => t.amount < 0).reduce((s, t) => s + Math.abs(t.amount), 0);
@@ -30,7 +30,7 @@ export function BankDashboard({ accounts, txns }: Props) {
     <div className="space-y-6">
       {/* Headline strip */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Metric label="Cash position (KES)" value={fmt(stats.totalKES, "KES")} icon={Wallet} tint="text-primary bg-primary/10" />
+        <Metric label="Cash position (UGX)" value={fmt(stats.totalKES, "UGX")} icon={Wallet} tint="text-primary bg-primary/10" />
         <Metric label="Inflows" value={fmt(stats.inflow)} icon={TrendingUp} tint="text-emerald-600 bg-emerald-500/10" />
         <Metric label="Outflows" value={fmt(stats.outflow)} icon={TrendingDown} tint="text-destructive bg-destructive/10" />
         <Metric label="Unreconciled" value={String(stats.unreconciled)} icon={Activity} tint="text-amber-600 bg-amber-500/10" />

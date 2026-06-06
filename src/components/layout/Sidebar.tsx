@@ -8,8 +8,6 @@ import {
   ShoppingBag,
   Inbox,
   MapPin,
-  BarChart3,
-  Sparkles,
   Settings,
   ChevronRight,
   HelpCircle,
@@ -84,14 +82,6 @@ const navGroups: NavGroup[] = [
     items: [
       { label: "Suppliers", href: "/app/suppliers", icon: Truck },
       { label: "Purchase orders", href: "/app/purchase-orders", icon: ClipboardList },
-    ],
-  },
-  {
-    label: "Intelligence",
-    permKey: "canViewAnalytics",
-    items: [
-      { label: "Analytics", href: "/app/analytics", icon: BarChart3 },
-      { label: "AI insights", href: "/app/ai-insights", icon: Sparkles },
     ],
   },
   {

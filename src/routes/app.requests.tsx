@@ -1,10 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Plus, FileText } from "lucide-react";
+import { Plus, FileText, Inbox, CheckCircle2, Clock, AlertTriangle, XCircle, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -87,6 +88,20 @@ function RequestsPage() {
     [requests],
   );
 
+  const kpis = useMemo(() => {
+    const now = Date.now();
+    const pending = requests.filter((r) => r.status === RequestStatus.Pending);
+    const urgent = pending.filter((r) => r.priority === "urgent").length;
+    const stale = pending.filter((r) => now - new Date(r.createdAt).getTime() > 3 * 86_400_000).length;
+    const fulfilled = requests.filter((r) => r.status === RequestStatus.Fulfilled).length;
+    const declined = requests.filter((r) => r.status === RequestStatus.Declined).length;
+    const partial = requests.filter((r) => r.status === RequestStatus.PartiallyFulfilled).length;
+    const approvalRate = requests.length
+      ? Math.round(((fulfilled + partial) / requests.length) * 100)
+      : 0;
+    return { pending: pending.length, urgent, stale, fulfilled, declined, partial, approvalRate };
+  }, [requests]);
+
   const pendingRequests = useMemo(
     () =>
       applyFilters(
@@ -99,6 +114,7 @@ function RequestsPage() {
       }),
     [requests, filters],
   );
+
 
   const allFiltered = useMemo(() => applyFilters(requests, filters), [requests, filters]);
 
@@ -137,16 +153,36 @@ function RequestsPage() {
 
   return (
     <div className="mx-auto max-w-[1400px] space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold text-foreground">Inventory Requests</h1>
-          <p className="text-sm text-muted-foreground">{requests.length} requests</p>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-sm">
+            <Inbox className="h-5 w-5" />
+          </span>
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground">Requests</h1>
+            <p className="text-sm text-muted-foreground">
+              Stock · leave · advances · equipment · purchase · IT — one inbox, one approval flow.
+            </p>
+          </div>
         </div>
-        <Button size="sm" onClick={() => setFormOpen(true)}>
-          <Plus className="mr-1.5 h-4 w-4" />
-          New Request
+        <Button size="sm" onClick={() => setFormOpen(true)} className="gap-1.5">
+          <Plus className="h-4 w-4" />
+          New request
         </Button>
       </div>
+
+      {requests.length > 0 && (
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+          <KpiCard icon={Clock} label="Pending" value={kpis.pending} tint="bg-amber-500/10 text-amber-600" />
+          <KpiCard icon={AlertTriangle} label="Urgent" value={kpis.urgent} tint="bg-destructive/10 text-destructive" />
+          <KpiCard icon={Sparkles} label="Stale > 3d" value={kpis.stale} tint="bg-rose-500/10 text-rose-600" />
+          <KpiCard icon={CheckCircle2} label="Fulfilled" value={kpis.fulfilled} tint="bg-emerald-500/10 text-emerald-600" />
+          <KpiCard icon={XCircle} label="Declined" value={kpis.declined} tint="bg-muted text-muted-foreground" />
+          <KpiCard icon={FileText} label="Approval rate" value={`${kpis.approvalRate}%`} tint="bg-primary/10 text-primary" />
+        </div>
+      )}
+
+
 
       <ErrorBoundary>
       {requests.length === 0 ? (
@@ -226,3 +262,28 @@ function RequestsPage() {
     </div>
   );
 }
+
+function KpiCard({
+  icon: Icon,
+  label,
+  value,
+  tint,
+}: {
+  icon: typeof Inbox;
+  label: string;
+  value: number | string;
+  tint: string;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-white p-4">
+      <div className="flex items-center gap-2">
+        <span className={`flex h-7 w-7 items-center justify-center rounded-lg ${tint}`}>
+          <Icon className="h-3.5 w-3.5" />
+        </span>
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      </div>
+      <p className="mt-2 font-mono text-xl font-semibold text-foreground">{value}</p>
+    </div>
+  );
+}
+

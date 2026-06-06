@@ -63,7 +63,7 @@ export function EntryFormSheet({ open, onOpenChange, kind, nextRef, onCreate }: 
       issueDate,
       dueDate,
       amount: Number(amount),
-      currency: "KES",
+      currency: "UGX",
       paid: 0,
       status: "open",
       payments: [],
@@ -118,7 +118,7 @@ export function EntryFormSheet({ open, onOpenChange, kind, nextRef, onCreate }: 
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Amount (KES)" icon={Hash}>
+            <Field label="Amount (UGX)" icon={Hash}>
               <Input
                 type="number"
                 inputMode="decimal"
