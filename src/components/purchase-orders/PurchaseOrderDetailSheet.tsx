@@ -269,7 +269,7 @@ export function PurchaseOrderDetailSheet({
                     return (
                       <TableRow key={li.id}>
                         <TableCell>
-                          <p className={`text-sm font-medium UGX {!item ? "italic text-muted-foreground/60 line-through" : ""}`}>{item?.name ?? "Deleted Item"}</p>
+                          <p className={`text-sm font-medium ${!item ? "italic text-muted-foreground/60 line-through" : ""}`}>{item?.name ?? "Deleted Item"}</p>
                           <p className="font-mono text-xs text-muted-foreground">{item?.sku ?? "—"}</p>
                         </TableCell>
                         <TableCell className="text-right font-mono text-sm">
@@ -286,7 +286,7 @@ export function PurchaseOrderDetailSheet({
                             <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted">
                               <div
                                 className={cn("h-full rounded-full transition-all", barColor)}
-                                style={{ width: `UGX {Math.min(100, pct)}%` }}
+                                style={{ width: `${Math.min(100, pct)}%` }}
                               />
                             </div>
                             {pct >= 100 && (
@@ -335,7 +335,7 @@ export function PurchaseOrderDetailSheet({
                         <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 text-sm">
-                            <span className={`font-medium UGX {!item ? "italic text-muted-foreground/60 line-through" : "text-foreground"}`}>
+                            <span className={`font-medium ${!item ? "italic text-muted-foreground/60 line-through" : "text-foreground"}`}>
                               {item?.name ?? "[Item Deleted]"}
                             </span>
                             <span className="font-mono text-xs text-muted-foreground">
