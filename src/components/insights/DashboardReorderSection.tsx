@@ -54,7 +54,7 @@ export function DashboardReorderSection({ items, movements, suppliers }: Dashboa
           <Badge variant="secondary" className="text-xs">{suggestions.length}</Badge>
         </div>
         <Button variant="ghost" size="sm" asChild className="text-xs">
-          <Link to="/app/ai-insights">
+          <Link to="/app/purchase-orders">
             View all <ArrowRight className="ml-1 h-3 w-3" />
           </Link>
         </Button>
