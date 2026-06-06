@@ -88,6 +88,20 @@ function RequestsPage() {
     [requests],
   );
 
+  const kpis = useMemo(() => {
+    const now = Date.now();
+    const pending = requests.filter((r) => r.status === RequestStatus.Pending);
+    const urgent = pending.filter((r) => r.priority === "urgent").length;
+    const stale = pending.filter((r) => now - new Date(r.createdAt).getTime() > 3 * 86_400_000).length;
+    const fulfilled = requests.filter((r) => r.status === RequestStatus.Fulfilled).length;
+    const declined = requests.filter((r) => r.status === RequestStatus.Declined).length;
+    const partial = requests.filter((r) => r.status === RequestStatus.PartiallyFulfilled).length;
+    const approvalRate = requests.length
+      ? Math.round(((fulfilled + partial) / requests.length) * 100)
+      : 0;
+    return { pending: pending.length, urgent, stale, fulfilled, declined, partial, approvalRate };
+  }, [requests]);
+
   const pendingRequests = useMemo(
     () =>
       applyFilters(
@@ -100,6 +114,7 @@ function RequestsPage() {
       }),
     [requests, filters],
   );
+
 
   const allFiltered = useMemo(() => applyFilters(requests, filters), [requests, filters]);
 
