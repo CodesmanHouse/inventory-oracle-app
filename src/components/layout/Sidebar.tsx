@@ -8,8 +8,6 @@ import {
   ShoppingBag,
   Inbox,
   MapPin,
-  BarChart3,
-  Sparkles,
   Settings,
   ChevronRight,
   HelpCircle,
