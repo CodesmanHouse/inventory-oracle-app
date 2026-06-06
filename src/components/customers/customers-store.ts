@@ -78,7 +78,7 @@ const SEED: Customer[] = [
     tags: ["strategic", "key-account"],
     notes: "Quarterly business review every Q.",
     interactions: [
-      { id: crypto.randomUUID(), type: "order", summary: "LPO-2026-0042 confirmed · KES 184,500", at: daysAgo(2) },
+      { id: crypto.randomUUID(), type: "order", summary: "LPO-2026-0042 confirmed · UGX 184,500", at: daysAgo(2) },
       { id: crypto.randomUUID(), type: "call", summary: "Esther called re: pricing on bulk cement", at: daysAgo(5), by: "Joyce" },
       { id: crypto.randomUUID(), type: "meeting", summary: "QBR · expansion roadmap", at: daysAgo(18), by: "Joyce" },
     ],

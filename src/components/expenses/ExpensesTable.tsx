@@ -247,7 +247,7 @@ export function ExpensesTable({ title, expenses, categories, filterType, onAdd, 
         </Table>
         <div className="flex items-center justify-between border-t border-border bg-muted/30 px-3 py-2 text-xs">
           <span className="text-muted-foreground">{rows.length} record{rows.length === 1 ? "" : "s"}</span>
-          <span className="font-mono font-semibold">Total · KES {total.toLocaleString()}</span>
+          <span className="font-mono font-semibold">Total · UGX {total.toLocaleString()}</span>
         </div>
       </div>
     </div>

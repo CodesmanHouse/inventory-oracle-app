@@ -229,7 +229,7 @@ function OrdersPage() {
         <StatCard label="Delivered" value={stats.delivered} icon={CheckCircle2} accent="bg-emerald-500/10 text-emerald-600" />
         <StatCard
           label="Order value"
-          value={`KES ${stats.value.toLocaleString()}`}
+          value={`UGX ${stats.value.toLocaleString()}`}
           icon={FileText}
           accent="bg-blue-500/10 text-blue-600"
         />
@@ -345,7 +345,7 @@ function OrdersPage() {
                       </span>
                     </TableCell>
                     <TableCell className="font-mono text-sm">
-                      KES {o.amount.toLocaleString()}
+                      UGX {o.amount.toLocaleString()}
                     </TableCell>
                     <TableCell>
                       <Select
@@ -567,7 +567,7 @@ function OrderFormSheet({
             </Field>
           </div>
 
-          <Field label="Amount (KES)" icon={FileText}>
+          <Field label="Amount (UGX)" icon={FileText}>
             <Input
               type="number"
               inputMode="decimal"

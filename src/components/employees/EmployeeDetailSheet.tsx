@@ -53,7 +53,7 @@ export function EmployeeDetailSheet({ employee, onClose, onEdit }: Props) {
           <Row icon={<MapPin className="h-3.5 w-3.5" />} label="Location">{e.location}</Row>
           <Row icon={<Briefcase className="h-3.5 w-3.5" />} label="Manager">{e.manager || "—"}</Row>
           <Row icon={<Calendar className="h-3.5 w-3.5" />} label="Tenure">{tenure(e.joinedAt)} · since {e.joinedAt}</Row>
-          <Row icon={<Wallet className="h-3.5 w-3.5" />} label="Salary">KES {e.salary.toLocaleString()}</Row>
+          <Row icon={<Wallet className="h-3.5 w-3.5" />} label="Salary">UGX {e.salary.toLocaleString()}</Row>
         </div>
 
         {e.skills.length > 0 && (

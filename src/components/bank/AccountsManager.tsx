@@ -162,7 +162,7 @@ function AccountSheet({
     bankName: "",
     branch: "",
     swiftCode: "",
-    currency: "KES" as Currency,
+    currency: "UGX" as Currency,
     openingBalance: "0",
     currentBalance: "0",
     status: "active" as "active" | "inactive",
@@ -185,7 +185,7 @@ function AccountSheet({
     } else {
       setForm({
         accountName: "", accountNumber: "", bankName: "", branch: "", swiftCode: "",
-        currency: "KES", openingBalance: "0", currentBalance: "0", status: "active",
+        currency: "UGX", openingBalance: "0", currentBalance: "0", status: "active",
       });
     }
   }, [open, initial]);
@@ -215,7 +215,7 @@ function AccountSheet({
               <Select value={form.currency} onValueChange={(v) => setForm({ ...form, currency: v as Currency })}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {(["KES", "USD", "EUR", "GBP"] as Currency[]).map((c) => (
+                  {(["UGX", "USD", "EUR", "GBP"] as Currency[]).map((c) => (
                     <SelectItem key={c} value={c}>{c}</SelectItem>
                   ))}
                 </SelectContent>

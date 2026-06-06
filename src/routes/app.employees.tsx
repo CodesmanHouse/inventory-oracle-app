@@ -87,7 +87,7 @@ function EmployeesPage() {
         <Kpi icon={<UserCheck className="h-4 w-4" />} label="Active" value={kpis.active} tint="from-blue-500/15 to-cyan-500/5" />
         <Kpi icon={<UserMinus className="h-4 w-4" />} label="On leave" value={kpis.onLeave} tint="from-amber-500/15 to-orange-500/5" />
         <Kpi icon={<Building2 className="h-4 w-4" />} label="Departments" value={kpis.depts} tint="from-slate-500/15 to-slate-300/5" />
-        <Kpi icon={<Users className="h-4 w-4" />} label="Monthly payroll" value={`KES ${(kpis.payroll / 1000).toFixed(0)}k`} tint="from-fuchsia-500/15 to-pink-500/5" />
+        <Kpi icon={<Users className="h-4 w-4" />} label="Monthly payroll" value={`UGX ${(kpis.payroll / 1000).toFixed(0)}k`} tint="from-fuchsia-500/15 to-pink-500/5" />
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2 sm:items-center">

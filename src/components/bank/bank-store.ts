@@ -2,7 +2,7 @@
 import { useEffect, useState, useCallback } from "react";
 
 export type AccountStatus = "active" | "inactive";
-export type Currency = "KES" | "USD" | "EUR" | "GBP";
+export type Currency = "UGX" | "USD" | "EUR" | "GBP";
 export type DepositType = "cash" | "cheque" | "mobile_money";
 export type WithdrawalType = "cash" | "cheque" | "transfer" | "mobile_money";
 export type MobileProvider = "M-Pesa" | "Airtel Money" | "T-Kash";
@@ -89,7 +89,7 @@ function seedAccounts(): BankAccount[] {
       bankName: "Equity Bank",
       branch: "Westlands",
       swiftCode: "EQBLKENA",
-      currency: "KES",
+      currency: "UGX",
       openingBalance: 500_000,
       currentBalance: 742_300,
       status: "active",
@@ -103,7 +103,7 @@ function seedAccounts(): BankAccount[] {
       bankName: "KCB Bank",
       branch: "Industrial Area",
       swiftCode: "KCBLKENX",
-      currency: "KES",
+      currency: "UGX",
       openingBalance: 200_000,
       currentBalance: 318_540,
       status: "active",
@@ -117,7 +117,7 @@ function seedAccounts(): BankAccount[] {
       bankName: "Stanbic Bank",
       branch: "Chiromo",
       swiftCode: "SBICKENX",
-      currency: "USD",
+      currency: "UGX",
       openingBalance: 12_000,
       currentBalance: 14_820,
       status: "active",
@@ -335,7 +335,7 @@ export function useBankStore() {
   };
 }
 
-export function fmt(amount: number, currency: Currency = "KES") {
+export function fmt(amount: number, currency: Currency = "UGX") {
   const sign = amount < 0 ? "-" : "";
   return `${sign}${currency} ${Math.abs(amount).toLocaleString(undefined, { maximumFractionDigits: 2 })}`;
 }

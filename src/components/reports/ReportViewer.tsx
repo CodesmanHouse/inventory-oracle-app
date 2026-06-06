@@ -30,7 +30,7 @@ interface BuildResult {
   totals?: { label: string; value: string; tone?: "ok" | "danger" }[];
 }
 
-const fmt = (n: number) => `KES ${Math.round(n).toLocaleString()}`;
+const fmt = (n: number) => `UGX ${Math.round(n).toLocaleString()}`;
 const numericKey = (h: string) => /amount|balance|total|net|cost|revenue|inflow|outflow|value|salvage|paid|expenses/i.test(h);
 
 export function ReportViewer({ reportKey, title, range, granularity, inputs, categoriesById }: Props) {

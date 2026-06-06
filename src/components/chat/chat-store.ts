@@ -82,10 +82,10 @@ const MESSAGES: Message[] = [
   { id: "m6", channelId: "c2", authorId: ME_ID, body: "Nice. Move the overflow to Aisle C-7 and tag the bin.", createdAt: t(55), mentions: [], attachments: [], reactions: [] },
   { id: "m7", channelId: "c2", authorId: "u1", body: "Heads-up: tomorrow's intake doubled. Bring in the temp pickers.", createdAt: t(20), mentions: [], attachments: [], reactions: [{ emoji: "💪", userIds: ["u2", "u4"] }] },
 
-  { id: "m8", channelId: "c3", authorId: "u3", body: "Bank reconciliation for KCB done. Variance KES 12,400 — investigating.", createdAt: t(140), mentions: [], attachments: [], reactions: [] },
+  { id: "m8", channelId: "c3", authorId: "u3", body: "Bank reconciliation for KCB done. Variance UGX 12,400 — investigating.", createdAt: t(140), mentions: [], attachments: [], reactions: [] },
   { id: "m9", channelId: "c3", authorId: "u6", body: "Payroll register attached for review.", createdAt: t(40), mentions: [ME_ID], attachments: [{ id: "a4", name: "Payroll-Mar-2026.xlsx", size: 88212, type: "doc" }], reactions: [{ emoji: "👀", userIds: [ME_ID] }] },
 
-  { id: "m10", channelId: "c4", authorId: "u5", body: "Closed Acme Industries LPO — KES 1.4M, delivery in 10 days. 🎉", createdAt: t(180), mentions: [], attachments: [], reactions: [{ emoji: "🎉", userIds: [ME_ID, "u1", "u8"] }, { emoji: "🥂", userIds: ["u1"] }] },
+  { id: "m10", channelId: "c4", authorId: "u5", body: "Closed Acme Industries LPO — UGX 1.4M, delivery in 10 days. 🎉", createdAt: t(180), mentions: [], attachments: [], reactions: [{ emoji: "🎉", userIds: [ME_ID, "u1", "u8"] }, { emoji: "🥂", userIds: ["u1"] }] },
   { id: "m11", channelId: "c4", authorId: "u8", body: "Pipeline forecast for next 30 days — confidence 78%.", createdAt: t(15), mentions: [], attachments: [{ id: "a5", name: "Sales-Forecast-Apr.pdf", size: 221440, type: "pdf" }], reactions: [] },
 
   { id: "m12", channelId: "c5", authorId: "u1", body: "Hey — can we sync on the warehouse expansion at 3pm?", createdAt: t(25), mentions: [], attachments: [], reactions: [] },

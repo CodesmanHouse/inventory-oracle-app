@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2 } from "lucide-react";
 import type { AuditEntry, Expense, ExpenseCategory } from "./expenses-store";
 
-const fmt = (n: number) => `KES ${n.toLocaleString()}`;
+const fmt = (n: number) => `UGX ${n.toLocaleString()}`;
 
 // ─── Categories Manager ───────────────────────────────────────
 export function CategoriesPanel({ categories, onAdd, onUpdate, onRemove }: {

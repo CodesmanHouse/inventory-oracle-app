@@ -36,7 +36,7 @@ interface Props {
 const PER_PAGE = 20;
 const fmt = (n: number) => n.toLocaleString();
 const money = (n: number) =>
-  n.toLocaleString(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+  n.toLocaleString(undefined, { style: "currency", currency: "UGX", maximumFractionDigits: 0 });
 
 export function InventoryTable({
   items, movements, sort, onSortChange, selected, onSelectedChange,

@@ -50,7 +50,7 @@ const PAYMENT_METHODS: { value: PaymentMethod; label: string }[] = [
 ];
 
 const fmt = (n: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n || 0);
+  new Intl.NumberFormat("en-UG", { style: "currency", currency: "UGX" }).format(n || 0);
 
 export function AddSaleSheet({ open, onOpenChange, items }: Props) {
   const { mutate, isLoading } = useCreateMovement();

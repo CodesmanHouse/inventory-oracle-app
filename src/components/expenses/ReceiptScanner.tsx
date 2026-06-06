@@ -46,7 +46,7 @@ export function ReceiptScanner({ categories, onCapture }: Props) {
       categoryId: cat?.id ?? "",
       vendor: parsed.vendor,
       amount: parsed.amount,
-      currency: "KES",
+      currency: "UGX",
       paymentMethod: "card",
       description: parsed.desc,
       attachment: fileName,
@@ -97,7 +97,7 @@ export function ReceiptScanner({ categories, onCapture }: Props) {
             </div>
             <dl className="grid grid-cols-2 gap-3 text-sm">
               <Row label="Vendor" value={parsed.vendor} />
-              <Row label="Amount" value={`KES ${parsed.amount.toLocaleString()}`} mono />
+              <Row label="Amount" value={`UGX ${parsed.amount.toLocaleString()}`} mono />
               <Row label="Category" value={parsed.category} />
               <Row label="Date" value={new Date().toLocaleDateString()} mono />
             </dl>

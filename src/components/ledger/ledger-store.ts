@@ -21,7 +21,7 @@ export interface LedgerEntry {
   issueDate: string;
   dueDate: string;
   amount: number;             // gross total
-  currency: string;           // KES default
+  currency: string;           // UGX default
   paid: number;               // cumulative paid
   status: EntryStatus;
   notes?: string;
@@ -109,7 +109,7 @@ function mk(
     issueDate,
     dueDate,
     amount,
-    currency: "KES",
+    currency: "UGX",
     paid,
     status: "open",
     payments: paid > 0 ? [{ id: crypto.randomUUID(), date: issueDate, amount: paid, method: "bank" }] : [],

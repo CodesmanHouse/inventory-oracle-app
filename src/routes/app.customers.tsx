@@ -109,7 +109,7 @@ function CustomersPage() {
         <Kpi label="VIP / Platinum" value={kpis.vip} icon={Crown} accent="bg-amber-500/10 text-amber-600" />
         <Kpi
           label="Lifetime value"
-          value={`KES ${(kpis.ltv / 1_000_000).toFixed(2)}M`}
+          value={`UGX ${(kpis.ltv / 1_000_000).toFixed(2)}M`}
           icon={TrendingUp}
           accent="bg-emerald-500/10 text-emerald-600"
         />
@@ -242,7 +242,7 @@ function CustomersPage() {
                   </TableCell>
                   <TableCell className="text-right font-mono text-sm">{c.totalOrders}</TableCell>
                   <TableCell className="text-right font-mono text-sm">
-                    KES {(c.lifetimeValue / 1000).toFixed(0)}K
+                    UGX {(c.lifetimeValue / 1000).toFixed(0)}K
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground">{c.salesRep || "—"}</TableCell>
                 </TableRow>

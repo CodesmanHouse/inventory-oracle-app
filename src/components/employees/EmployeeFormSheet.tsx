@@ -87,7 +87,7 @@ export function EmployeeFormSheet({ open, onOpenChange, initial, onSave }: Props
             </Select>
           </div>
           <div><Label>Joined</Label><Input type="date" value={f.joinedAt} onChange={(e) => setF({ ...f, joinedAt: e.target.value })} /></div>
-          <div><Label>Salary (KES)</Label><Input type="number" value={f.salary} onChange={(e) => setF({ ...f, salary: Number(e.target.value) })} /></div>
+          <div><Label>Salary (UGX)</Label><Input type="number" value={f.salary} onChange={(e) => setF({ ...f, salary: Number(e.target.value) })} /></div>
           <div className="col-span-2"><Label>Skills (comma separated)</Label><Input value={skillsText} onChange={(e) => setSkillsText(e.target.value)} /></div>
           <div className="col-span-2"><Label>Bio</Label><Textarea rows={3} value={f.bio ?? ""} onChange={(e) => setF({ ...f, bio: e.target.value })} /></div>
         </div>
