@@ -10,48 +10,86 @@ export interface FaqCategory {
 
 export const FAQ_DATA: FaqCategory[] = [
   {
-    title: "Getting Started",
+    title: "Getting started",
     items: [
-      { question: "What is Stackwise?", answer: "Stackwise is an inventory management system that helps you track stock levels, manage suppliers, create purchase orders, and gain insights through analytics." },
-      { question: "How do I enter demo mode?", answer: "Click 'Try Demo' on the landing page. Demo mode pre-loads sample data so you can explore all features without creating an account." },
-      { question: "How do I navigate the app?", answer: "Use the sidebar (desktop) or bottom navigation bar (mobile) to switch between sections. Press CMD+K to open the command palette for quick search." },
-      { question: "Can I reset demo data?", answer: "Yes! Go to Settings → System and click 'Reset Demo Data' to restore all sample data to its original state." },
-      { question: "What roles are available?", answer: "Three roles: Admin (full access), Manager (can manage inventory and POs), and Requestor (can browse catalog and submit requests)." },
+      { question: "What is Stackwise?", answer: "Stackwise is an all-in-one business operations workspace. It unifies inventory, sales, customers, debtors, creditors, bank, expenses, assets, employees, internal chat and reporting in one place." },
+      { question: "How do I enter demo mode?", answer: "Click 'Try Demo' on the landing page. Demo mode pre-loads representative sample data across every module so you can explore without creating an account." },
+      { question: "What currency does the app use?", answer: "All amounts across the app are expressed in Uganda Shillings (UGX). Multi-currency bank accounts can still be opened, but reporting rolls up to UGX." },
+      { question: "How do I navigate quickly?", answer: "Use the sidebar (desktop) or bottom navigation (mobile). Press CMD/CTRL + K anywhere to open the command palette and jump to any page, item or action." },
+      { question: "Which roles are available?", answer: "Admin (full access), Manager (operations + finance), and Requestor (catalog browse, requests, chat). Sensitive modules like Bank, Reports, Assets and Settings are restricted." },
     ],
   },
   {
-    title: "Inventory Management",
+    title: "Inventory & catalog",
     items: [
-      { question: "How do I add a new item?", answer: "Go to Catalog and click '+ New Item'. Fill in the name, SKU, category, and stock details. The SKU must be unique." },
-      { question: "What do the stock status colors mean?", answer: "Green (In Stock): quantity above reorder point. Amber (Low Stock): quantity at or below reorder point. Red (Out of Stock): zero quantity." },
-      { question: "How do I log a stock movement?", answer: "Go to Movements and click 'Log Movement'. Select the type (Received, Shipped, Adjusted, or Transferred), choose the item, and enter the quantity." },
-      { question: "What is a reorder point?", answer: "The minimum quantity threshold that triggers a low-stock alert. When stock drops to or below this level, the item appears in 'Needs Attention'." },
-      { question: "How do I bulk update items?", answer: "In the Catalog, select multiple items using checkboxes, then use the bulk action bar to update category, archive, or delete selected items." },
+      { question: "How do I add a new item?", answer: "Go to Catalog and click '+ New item'. Fill in name, SKU, category, cost and stock. SKUs must be unique." },
+      { question: "What do the stock colours mean?", answer: "Green: above reorder point. Amber: at or below reorder point. Red: out of stock. The 'Most selling' filter ranks items by movement volume." },
+      { question: "How do I log a stock movement?", answer: "Open Movements → Log movement. Choose Received, Shipped, Adjusted or Transferred, pick the item and quantity." },
+      { question: "How do I bulk update items?", answer: "Select rows with checkboxes in Catalog, then use the bulk action bar to change category, archive or delete." },
     ],
   },
   {
-    title: "Purchase Orders",
+    title: "Sales, transactions & orders",
     items: [
-      { question: "How do I create a purchase order?", answer: "Go to Purchase Orders and click 'Create PO'. Select a supplier, add line items with quantities and costs, then submit." },
-      { question: "What are PO statuses?", answer: "Draft (not yet sent), Submitted (sent to supplier), Partially Received (some items received), Fully Received (all items received), Cancelled." },
-      { question: "How do I receive a shipment?", answer: "Open a submitted PO and click 'Receive Shipment'. Enter the quantities received for each line item. Stock is automatically updated." },
-      { question: "Can I print a purchase order?", answer: "Yes, open the PO detail view and click the print icon. This generates a printable view with all order details." },
+      { question: "How is VAT handled on a sale?", answer: "VAT is optional and defaults to 18% when enabled. Toggle it on the Add Sale sheet — the line totals update automatically." },
+      { question: "Walk-in customers?", answer: "If you leave the customer name blank on a transaction, the sale is recorded against 'Walk-in' automatically." },
+      { question: "Can I link a sale to a company asset?", answer: "Yes. On the sale sheet, pick the asset that fulfilled the order (e.g. delivery vehicle). It appears on the transaction record and asset history." },
+      { question: "How do quotations work?", answer: "On the Orders page you can attach a detailed quotation as text plus an image or PDF file. Customers receive the same document you store." },
     ],
   },
   {
-    title: "Reports & Analytics",
+    title: "Customers, debtors & creditors",
     items: [
-      { question: "What reports are available?", answer: "Stock Overview (by category and status), Movement Trends (over time), Turnover Analysis, Supplier Performance scorecards, and Cost breakdowns." },
-      { question: "Can I export data?", answer: "Yes, use the 'Export CSV' button on the Analytics page or the export button on data tables to download your data." },
-      { question: "What are AI Insights?", answer: "AI-powered features including reorder suggestions based on demand patterns, anomaly detection for unusual movements, and natural language search." },
+      { question: "What's the difference between Customers, Debtors and Creditors?", answer: "Customers stores relationship data (tier, contact, LTV). Debtors tracks what customers owe you. Creditors tracks what you owe suppliers. Payments recorded in Debtors/Creditors update aging buckets automatically." },
+      { question: "How do aging buckets work?", answer: "Open entries are sorted into Current, 1–30, 31–60, 61–90 and 90+ days past due. Overdue invoices are highlighted in the ledger view." },
+      { question: "Can I record a partial payment?", answer: "Yes — open any debtor/creditor entry and click 'Record payment'. The balance, status and aging recompute live." },
     ],
   },
   {
-    title: "Account & Settings",
+    title: "Bank & expenses",
     items: [
-      { question: "How do I manage users?", answer: "Admins can go to Settings → Users to invite new users, change roles, and deactivate accounts." },
-      { question: "How do I change categories?", answer: "Go to Settings → Categories to add, rename, or delete categories. Items in a deleted category become uncategorized." },
-      { question: "Where are notification preferences?", answer: "Click the bell icon in the header, then the gear icon to customize which notifications you receive." },
+      { question: "How do I add a bank account?", answer: "Bank → Accounts → '+ New account'. Choose currency (UGX, USD, EUR, GBP) and opening balance. Multiple accounts roll up to the dashboard." },
+      { question: "Can I attach receipts to deposits & withdrawals?", answer: "Yes. On every deposit or withdrawal you can upload an image or PDF of the receipt; it is stored on the transaction record." },
+      { question: "What happened to expense sub-pages?", answer: "Approvals, vendors, travel, employee, categories and claims are no longer separate pages — they're now filters on the single Expenses table for faster workflows." },
+      { question: "How do I reconcile a statement?", answer: "Bank → Reconcile, pick an account, import the statement (or use the sample) and tick off matched lines." },
+    ],
+  },
+  {
+    title: "Assets & maintenance",
+    items: [
+      { question: "How do I record a daily meter reading?", answer: "Open the asset's detail sheet and use the meter reading logger. Service-due 'pressure' updates against both the next-service meter and date." },
+      { question: "How is book value calculated?", answer: "Straight-line depreciation between purchase cost and salvage value over the asset's useful life. The detail sheet also shows TCO (cost of ownership)." },
+    ],
+  },
+  {
+    title: "Employees & chat",
+    items: [
+      { question: "Who can manage employees?", answer: "Admin and Manager roles. Employee records drive the 'Staff' picker in sales and the 'Employee' filter in expenses." },
+      { question: "Can I share files in chat?", answer: "Yes — the composer supports images, PDFs and documents, plus @mentions, emoji and threaded replies." },
+    ],
+  },
+  {
+    title: "Requests",
+    items: [
+      { question: "What can I request?", answer: "Inventory items, leave, advances, equipment, purchase requests and general approvals. Each request type has its own form and approval path." },
+      { question: "Who approves a request?", answer: "Managers and Admins see a Pending Approval queue with urgent items pinned to the top. They can approve, partially approve, decline or cancel." },
+      { question: "Can I track a request after submission?", answer: "Yes — open My requests to see status (Pending, Approved, Partial, Declined, Cancelled, Fulfilled) and the audit trail." },
+    ],
+  },
+  {
+    title: "Reports",
+    items: [
+      { question: "Which reports can I generate?", answer: "Income statement, balance sheet, cash flow, periodic P&L, expense by category, AR / AP aging, bank summary and asset register." },
+      { question: "Can I pick a date range?", answer: "Yes. Reports → pick a preset (Today, MTD, YTD, 12 months) or a custom range, choose granularity (daily / weekly / monthly / quarterly / annual)." },
+      { question: "How do I export?", answer: "Every report exports to PDF, Excel or CSV from the toolbar." },
+    ],
+  },
+  {
+    title: "Account & settings",
+    items: [
+      { question: "How do I manage users?", answer: "Admins: Settings → Users to invite, change roles or deactivate accounts." },
+      { question: "How do I configure categories and custom fields?", answer: "Settings → Categories or Custom fields. Custom fields are capped at 20 to keep forms manageable." },
+      { question: "Where are notification preferences?", answer: "Click the bell icon in the header, then the gear icon to choose which alerts you receive." },
     ],
   },
 ];
