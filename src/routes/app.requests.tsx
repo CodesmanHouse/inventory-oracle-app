@@ -262,3 +262,28 @@ function RequestsPage() {
     </div>
   );
 }
+
+function KpiCard({
+  icon: Icon,
+  label,
+  value,
+  tint,
+}: {
+  icon: typeof Inbox;
+  label: string;
+  value: number | string;
+  tint: string;
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-white p-4">
+      <div className="flex items-center gap-2">
+        <span className={`flex h-7 w-7 items-center justify-center rounded-lg ${tint}`}>
+          <Icon className="h-3.5 w-3.5" />
+        </span>
+        <p className="text-xs font-medium text-muted-foreground">{label}</p>
+      </div>
+      <p className="mt-2 font-mono text-xl font-semibold text-foreground">{value}</p>
+    </div>
+  );
+}
+
