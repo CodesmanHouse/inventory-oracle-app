@@ -19,8 +19,6 @@ const ROUTE_ACCESS: Record<string, UserRoleType[]> = {
   "/app/assets": ["admin", "manager"],
   "/app/reports": ["admin", "manager"],
   "/app/locations": ["admin", "manager", "requestor"],
-  "/app/analytics": ["admin", "manager"],
-  "/app/ai-insights": ["admin", "manager"],
   "/app/settings": ["admin"],
 };
 
